@@ -1,6 +1,5 @@
 package org.example.models;
 
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,7 +49,6 @@ public class Survey {
     public Survey(String title, String description, List<Question> questions){
         this.title = title;
         this.description = description;
-        this.surveyor = surveyor;
         this.questions = questions;
     }
 

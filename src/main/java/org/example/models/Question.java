@@ -37,12 +37,17 @@ public class Question {
 
     public Question(String prompt, QuestionType questionType) {
         this.prompt = prompt;
-        this.description = description;
         this.questionType = questionType;
     }
 
 
     public Question(String prompt, QuestionType questionType, List<Answer> answers) {
+        this.prompt = prompt;
+        this.questionType = questionType;
+        this.answers = answers;
+    }
+
+    public Question(String prompt, String description, QuestionType questionType, List<Answer> answers) {
         this.prompt = prompt;
         this.description = description;
         this.questionType = questionType;
