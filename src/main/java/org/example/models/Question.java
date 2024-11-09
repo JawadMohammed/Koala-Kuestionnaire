@@ -1,4 +1,4 @@
-package org.example;
+package org.example.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +13,11 @@ public class Question {
     @Getter
     @Setter
     String prompt;
+
+    public Question(String prompt, QuestionType questionType) {
+        this.prompt = prompt;
+        this.questionType = questionType;
+    }
 
     boolean validateAnswer(Answer answer)
     {

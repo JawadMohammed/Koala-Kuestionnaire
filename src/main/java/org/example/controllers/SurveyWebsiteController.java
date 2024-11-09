@@ -35,7 +35,7 @@ public class SurveyWebsiteController {
      */
     public void addQuestion(String prompt, QuestionType questionType, List<Answer> answers){
         List<Question> surveyQuestions = this.survey.getQuestions();
-        Question newQuestion = new Question(prompt, questionType, answers);
+        Question newQuestion = new Question(prompt, questionType);
 
         this.survey.getQuestions().add(newQuestion);
     }
@@ -51,7 +51,6 @@ public class SurveyWebsiteController {
 
         // Change the questions' prompt and description to match the parameter's
         this.survey.getQuestions().get(id).setPrompt(question.getPrompt());
-        this.survey.getQuestions().get(id).setDescription(question.getDescription());
         this.survey.getQuestions().get(id).setQuestionType(question.getQuestionType());
     }
 
