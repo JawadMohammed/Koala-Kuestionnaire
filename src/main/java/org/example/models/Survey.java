@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,7 @@ public class Survey {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private long id;
 
     /* Survey questions */

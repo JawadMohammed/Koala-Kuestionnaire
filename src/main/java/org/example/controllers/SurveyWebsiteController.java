@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class that represents the controller for the Survey class
  *
- * @author Jawad ,
+ * @author Jawad Mohammed,
  * @author Gabriel Evensen, 101119814
  */
 public class SurveyWebsiteController {
