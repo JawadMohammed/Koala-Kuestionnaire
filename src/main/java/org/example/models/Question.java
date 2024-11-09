@@ -14,6 +14,11 @@ public class Question {
     @Setter
     String prompt;
 
+    public Question(String prompt, QuestionType questionType) {
+        this.prompt = prompt;
+        this.questionType = questionType;
+    }
+
     boolean validateAnswer(Answer answer)
     {
         if (answer == null || answer.getResponse() == null) {
