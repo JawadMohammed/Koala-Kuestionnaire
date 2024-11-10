@@ -2,5 +2,5 @@ package org.example.models;
 
 public enum QuestionType
 {
-    BOOLEAN, STRING, INTEGER, DOUBLE
+    ANY, BOOLEAN, STRING, INTEGER, DOUBLE
 }

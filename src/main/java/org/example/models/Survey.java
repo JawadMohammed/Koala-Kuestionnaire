@@ -1,10 +1,12 @@
 package org.example.models;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +16,8 @@ import java.util.Objects;
  * @author Jawad ,
  * @author Gabriel Evensen, 101119814
  */
+
+@Entity
 public class Survey {
     /* Survey title */
     @Getter
@@ -25,31 +29,42 @@ public class Survey {
     @Setter
     private String description;
 
-    /* Person taking the survey */
-    @Getter
-    @Setter
-    private User surveyee;
-
-    /* Survey author */
-    @Getter
-    @Setter
-    private User surveyor;
+    
 
     /* Survey ID */
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private long id;
+
+
+    /* The questions prompt*/
+    @Getter
+    @Setter
+    private Answer answer;
 
     /* Survey questions */
     @Getter
     @Setter
+
+
+    private LocalDateTime createdAt;
+
+    private boolean closed;
+
+    @Getter
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
 
     public Survey(String title, String description, List<Question> questions){
         this.title = title;
         this.description = description;
         this.questions = questions;
+    }
+
+    public Survey() {
+
     }
 
     /**
@@ -85,4 +100,5 @@ public class Survey {
     public int hashCode() {
         return Objects.hash(id, title, description, questions);
     }
+
 }
