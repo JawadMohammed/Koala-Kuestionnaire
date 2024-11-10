@@ -3,12 +3,14 @@ package org.example.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
 public class Question {
     /* The question ID */
+
+
     @Getter
     @Setter
     @Id
@@ -18,12 +20,24 @@ public class Question {
     /* The permitted response type */
     @Getter
     @Setter
+    @Enumerated(EnumType.STRING)
     private QuestionType questionType;
+
+    private Integer minValue;
+    private Integer maxValue;
 
     /* The questions prompt*/
     @Getter
     @Setter
     private String prompt;
+
+    @ElementCollection
+    private List<String> options;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+
 
     /**
      * Constructor
@@ -34,6 +48,10 @@ public class Question {
     public Question(String prompt, QuestionType questionType) {
         this.prompt = prompt;
         this.questionType = questionType;
+    }
+
+    public Question() {
+
     }
 
     /**
