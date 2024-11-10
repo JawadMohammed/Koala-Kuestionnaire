@@ -38,6 +38,10 @@ public class Question {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
+
 
     /**
      * Constructor
@@ -82,5 +86,8 @@ public class Question {
             default:
                 return false;
         }
+
+
+
     }
 }

@@ -5,13 +5,16 @@ import lombok.Getter;
 import javax.persistence.*;
 @Entity
 public class Answer {
-
-    @Getter
-    Object response;
+    public Answer() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Getter
+    private Object response;  // Store complex data as JSON text or long strings.
+
 
     private String answerText;
     private Integer answerNumber;
@@ -26,3 +29,5 @@ public class Answer {
     private Surveyee surveyee;
 
 }
+
+
