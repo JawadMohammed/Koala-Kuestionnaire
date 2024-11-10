@@ -3,7 +3,7 @@ package org.example.models;
 import lombok.Getter;
 
 import javax.persistence.*;
-
+@Entity
 public class Answer {
 
     @Getter
