@@ -14,11 +14,6 @@ public class Surveyor extends User {
         this.setId(id);
     }
 
-    public Surveyee(String name, int id) {
-        this.setName(name);
-        this.setId(id);
-    }
-
     // Getter for name
     public String getName() {
         return super.getName();
