@@ -2,10 +2,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/src/main/java/org.example/models/Answer.java
-!**/src/main/java/org.example/models/Question.java
-!**/src/main/java/org.example/models/QuestionType.java
-!**/src/main/java/org.example/models/User.java
 
 
 
@@ -15,6 +11,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/misc.xml
 *.iws
 *.iml
 *.ipr
