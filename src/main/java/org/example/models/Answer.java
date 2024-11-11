@@ -1,17 +1,25 @@
 package org.example.models;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 
-import javax.persistence.*;
 @Entity
+@Table(name = "answers")
 public class Answer {
-
-    @Getter
-    Object response;
+    public Answer() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Getter
+    private String response;  // Store complex data as JSON text or long strings.
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+
 
     private String answerText;
     private Integer answerNumber;
@@ -26,3 +34,5 @@ public class Answer {
     private Surveyee surveyee;
 
 }
+
+

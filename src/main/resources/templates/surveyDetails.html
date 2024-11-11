@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Survey Details</title>
+</head>
+<body>
+<h1 th:text="${survey.title}">Survey Title</h1>
+<p th:text="${survey.description}">Survey Description</p>
+
+<h2>Questions</h2>
+<ul>
+    <li th:each="question : ${survey.questions}">
+        <span th:text="${question.prompt}">Question Prompt</span>
+    </li>
+</ul>
+
+<a th:href="@{/questions/new/{surveyId}(surveyId=${survey.id})}">Add Question</a>
+</body>
+</html>

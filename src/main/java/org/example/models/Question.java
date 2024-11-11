@@ -3,7 +3,7 @@ package org.example.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -37,6 +37,10 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
 
 
     /**
@@ -82,5 +86,8 @@ public class Question {
             default:
                 return false;
         }
+
+
+
     }
 }
