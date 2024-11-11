@@ -3,12 +3,13 @@ package org.example.RestControllers;
 import org.example.models.Question;
 import org.example.services.QuestionService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/surveys/{surveyId}/questions")
+@Controller
+@RequestMapping("/surveys/{surveyId}/questions")
 public class QuestionController {
     private final QuestionService questionService;
 
