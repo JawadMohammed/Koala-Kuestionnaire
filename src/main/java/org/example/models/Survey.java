@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +29,6 @@ public class Survey {
     @Setter
     private String description;
 
-    
 
     /* Survey ID */
     @Getter
@@ -40,15 +39,18 @@ public class Survey {
 
 
     /* The questions prompt*/
-    @Getter
-    @Setter
-    private Answer answer;
+//    @Getter
+//    @Setter
+//    @ManyToOne
+//    @JoinColumn(name = "answer_id")
+//    private Answer answer;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    private List<Answer> answers;
 
     /* Survey questions */
     @Getter
     @Setter
-
-
     private LocalDateTime createdAt;
 
     private boolean closed;
@@ -101,4 +103,7 @@ public class Survey {
         return Objects.hash(id, title, description, questions);
     }
 
+    public void closeSurvey() {
+        closed = true;
+    }
 }
