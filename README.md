@@ -10,3 +10,20 @@ UML Class Diagram: [https://drive.google.com/file/d/1u2_kEiDjmifOMmWzB57y7Kxv0m5
 [Front-End Mockup:](https://docs.google.com/presentation/d/1517oo0Sg0uBIAgBG-HQa3aO_WIEbvdIw9or2LpHIVyE/edit?usp=sharing)
 
 [Initial Writeup:](https://docs.google.com/document/d/1IyZHtcENoB2JM6cke4yu5bPZR-3-EdlKjJhLk1Yskj8/edit?usp=sharing)
+
+#Running the Executable JAR File
+	
+1. Install Maven
+
+##Run the following on your terminal:
+
+2. git clone https://github.com/JawadMohammed/Koala-Kuestionnaire.git
+3. cd Koala-Kuestionnaire
+4. mvn install								//installing Maven dependancies
+5. mvn clean package							// Building JAR
+6. java -jar target/"Replace with JAR file name"
+
+
+Authors:
+1. Viraj Patel - 101224918
+2. 
