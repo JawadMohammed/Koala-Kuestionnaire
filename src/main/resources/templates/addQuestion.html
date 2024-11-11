@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Question</title>
+</head>
+<body>
+<h1>Add a Question</h1>
+<form th:action="@{/questions/{surveyId}(surveyId=${surveyId})}" method="post">
+    <label>Prompt:</label>
+    <input type="text" name="prompt"><br>
+    <label>Question Type:</label>
+    <select name="questionType">
+        <option value="STRING">String</option>
+        <option value="BOOLEAN">Boolean</option>
+        <option value="INTEGER">Integer</option>
+        <option value="DOUBLE">Double</option>
+    </select><br>
+    <button type="submit">Add Question</button>
+</form>
+</body>
+</html>
