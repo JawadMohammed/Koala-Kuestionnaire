@@ -1,8 +1,14 @@
 package org.example.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Surveyor extends User {
 
     private String name;
+
+    @Id
     private int id;
 
 
@@ -25,6 +31,7 @@ public class Surveyor extends User {
     }
 
     // Getter for id
+    @Override
     public int getId() {
         return super.getId();
     }
