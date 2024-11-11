@@ -28,5 +28,5 @@ UML Class Diagram: [https://drive.google.com/file/d/1u2_kEiDjmifOMmWzB57y7Kxv0m5
 
 Authors:
 1. Viraj Patel - 101224918
-2. Abdulrahman Aldayel - 101142760\
+2. Abdulrahman Aldayel - 101142760
 3. Jawad Mohammed - 101233031
