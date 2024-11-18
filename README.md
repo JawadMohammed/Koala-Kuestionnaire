@@ -8,9 +8,12 @@ Koala-Kuestionnaire made with a Java Springboot backend and (WIP) HTMX Frontend
 
 [UML Class Diagram:](https://app.diagrams.net/#G1u2_kEiDjmifOMmWzB57y7Kxv0m5GYgh2#%7B%22pageId%22%3A%22wxf8efvGGPWjzxauskDP%22%7D)
 
+[Database Schemema:](https://dbdiagram.io/d/Koala-Kuestionnaire-DB-Schema-6733c56ae9daa85aca3940ff)
+
 [Front-End Mockup:](https://docs.google.com/presentation/d/1517oo0Sg0uBIAgBG-HQa3aO_WIEbvdIw9or2LpHIVyE/edit?usp=sharing)
 
 [Initial Writeup:](https://docs.google.com/document/d/1IyZHtcENoB2JM6cke4yu5bPZR-3-EdlKjJhLk1Yskj8/edit?usp=sharing)
+
 
 #Running the Executable JAR File
 	
@@ -29,3 +32,6 @@ Authors:
 1. Viraj Patel - 101224918
 2. Abdulrahman Aldayel - 101142760
 3. Jawad Mohammed - 101233031
+4. Adham Elmahi - 101199518
+5. Gabriel Ben Evensen - 101119814
+
