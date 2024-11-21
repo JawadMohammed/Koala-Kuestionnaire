@@ -35,8 +35,9 @@ public class SurveyWebsiteController {
      */
     public void addQuestion(String prompt, QuestionType questionType, List<Answer> answers){
         List<Question> surveyQuestions = this.survey.getQuestions();
-        Question newQuestion = new Question(prompt, questionType);
-
+        Question newQuestion = new Question();
+        newQuestion.setQuestion_prompt(prompt);
+        newQuestion.setQuestionType(questionType);
         this.survey.getQuestions().add(newQuestion);
     }
 
@@ -50,7 +51,7 @@ public class SurveyWebsiteController {
         Question questionToEdit = this.survey.getQuestions().get(id); // keep a copy of the original question in case they want to revert
 
         // Change the questions' prompt and description to match the parameter's
-        this.survey.getQuestions().get(id).setPrompt(question.getPrompt());
+        this.survey.getQuestions().get(id).setQuestion_prompt((question.getQuestion_prompt()));
         this.survey.getQuestions().get(id).setQuestionType(question.getQuestionType());
     }
 

@@ -12,20 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 public class Question {
 
-    enum question_type {
-        TEXT,
-        RANGE,
-        MULTIPLE_CHOICE,
-        MULTI_SELECT,
-
-    }
-
     /* The question ID */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int qid;
 
-    private question_type questionType;
+    private QuestionType questionType;
 
     private long sid;
 
