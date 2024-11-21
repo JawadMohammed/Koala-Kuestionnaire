@@ -1,93 +1,39 @@
 package org.example.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+@Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
+
+    enum question_type {
+        TEXT,
+        RANGE,
+        MULTIPLE_CHOICE,
+        MULTI_SELECT,
+
+    }
+
     /* The question ID */
-
-
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int qid;
 
-    /* The permitted response type */
-    @Getter
-    @Setter
-    @Enumerated(EnumType.STRING)
-    private QuestionType questionType;
+    private question_type questionType;
 
-    private Integer minValue;
-    private Integer maxValue;
+    private long sid;
 
-    /* The questions prompt*/
-    @Getter
-    @Setter
-    private String prompt;
+    private String question_prompt;
 
-    @ElementCollection
-    private List<String> options;
+    private int order;
 
-    @ManyToOne
-    @JoinColumn(name = "survey_id")
-    private Survey survey;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Answer> answers;
+    private int mc_number;
 
 
-
-    /**
-     * Constructor
-     *
-     * @param prompt - the Question's prompt
-     * @param questionType - the type of answers permitted
-     */
-    public Question(String prompt, QuestionType questionType) {
-        this.prompt = prompt;
-        this.questionType = questionType;
-    }
-
-    public Question() {
-
-    }
-
-    /**
-     * Method to validate the answer given
-     *
-     * @param answer - the Surveyee's answer
-     * @return boolean - the truthybess of the answer. True if the answer
-     */
-    private boolean validateAnswer(Answer answer)
-    {
-        if (answer == null || answer.getResponse() == null) {
-            return false;
-        }
-
-        Object response = answer.getResponse();
-
-        //TODO: Implement functionality to check if the answer is THE correct answer... different function???
-
-        switch (this.questionType) {
-            case BOOLEAN:
-                return response instanceof Boolean;
-            case STRING:
-                return response instanceof String;
-            case INTEGER:
-                return response instanceof Integer;
-            case DOUBLE:
-                return response instanceof Double;
-            default:
-                return false;
-        }
-
-
-
-    }
 }

@@ -1,6 +1,6 @@
 package org.example.services;
 import org.example.models.Survey;
-import org.example.models.SurveyRepository;
+import org.example.repositories.SurveyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
