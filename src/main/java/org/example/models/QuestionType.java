@@ -2,5 +2,9 @@ package org.example.models;
 
 public enum QuestionType
 {
-    ANY, BOOLEAN, STRING, INTEGER, DOUBLE
+    TEXT,
+    RANGE,
+    MULTIPLE_CHOICE,
+    MULTI_SELECT,
+
 }
