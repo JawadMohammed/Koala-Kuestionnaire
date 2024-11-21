@@ -1,7 +1,7 @@
 package org.example.services;
 
 import org.example.models.Answer;
-import org.example.models.AnswerRepository;
+import org.example.repositories.AnswerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
