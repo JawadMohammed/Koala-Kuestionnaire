@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "org.example.models")
+@EnableJpaRepositories(basePackages = "org.example.repositories")
 @EntityScan("org.example.models")
 
 public class KoalaKuestApplication {
