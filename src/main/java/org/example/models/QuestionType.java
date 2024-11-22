@@ -6,4 +6,5 @@ public enum QuestionType
     RANGE,
     MULTIPLE_CHOICE,
     MULTI_SELECT,
+
 }

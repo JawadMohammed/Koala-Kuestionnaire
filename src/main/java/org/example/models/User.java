@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "\"user\"")
 public abstract class User {
-    private String name;
+    private String name, password;
     @Id
     private int id;
 
@@ -25,4 +25,7 @@ public abstract class User {
         this.id = id;
     }
 
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) {}
 }

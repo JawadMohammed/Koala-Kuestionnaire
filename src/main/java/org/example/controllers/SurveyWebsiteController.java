@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class that represents the controller for the Survey class
  *
- * @author Jawad Mohammed,
+ * @author Jawad Mohammed, 101233031
  * @author Gabriel Evensen, 101119814
  */
 public class SurveyWebsiteController {
@@ -38,7 +38,6 @@ public class SurveyWebsiteController {
         Question newQuestion = new Question();
         newQuestion.setQuestion_prompt(prompt);
         newQuestion.setQuestionType(questionType);
-
         this.survey.getQuestions().add(newQuestion);
     }
 
@@ -52,7 +51,7 @@ public class SurveyWebsiteController {
         Question questionToEdit = this.survey.getQuestions().get(id); // keep a copy of the original question in case they want to revert
 
         // Change the questions' prompt and description to match the parameter's
-        this.survey.getQuestions().get(id).setQuestion_prompt(question.getQuestion_prompt());
+        this.survey.getQuestions().get(id).setQuestion_prompt((question.getQuestion_prompt()));
         this.survey.getQuestions().get(id).setQuestionType(question.getQuestionType());
     }
 
