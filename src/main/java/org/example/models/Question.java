@@ -17,7 +17,12 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int qid;
 
+    @Enumerated()
     private QuestionType questionType;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 
     private long sid;
 

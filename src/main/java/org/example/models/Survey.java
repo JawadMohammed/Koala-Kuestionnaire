@@ -1,6 +1,7 @@
 package org.example.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class Survey {
 
     @Getter
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     public Survey(String title, String description, List<Question> questions){
         this.title = title;
