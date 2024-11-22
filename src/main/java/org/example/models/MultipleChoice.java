@@ -16,14 +16,14 @@ public class MultipleChoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer mcId;
+    private long mcId;
 
-    private Integer qid; // Foreign key
+    private long qid; // Foreign key
 
-    private String option;
+    private String option_prompt;
 
     public MultipleChoice(Integer qid, String option) {
         this.qid = qid;
-        this.option = option;
+        this.option_prompt = option;
     }
 }

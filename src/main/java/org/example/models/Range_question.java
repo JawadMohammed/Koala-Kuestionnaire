@@ -4,26 +4,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class MultiSelect {
+public class Range_question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long msId;
+    private long rangeId;
 
     private long qid; // Foreign key
 
-    private String option_prompt;
+    private int start;
+    private int end;
 
-    public MultiSelect(Integer qid, String option) {
-        this.qid = qid;
-        this.option_prompt = option;
-    }
 }
