@@ -1,5 +1,6 @@
 package org.example.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -7,8 +8,14 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "\"user\"")
 public abstract class User {
-    private String name, password;
+    @Column(name = "Name")
+    private String name;
+    @Column(name = "Password")
+    private String password;
+    @Column(name = "username")
+    private String username;
     @Id
+    @Column(name = "user_id")
     private int id;
 
     public String getName() { return name; }
