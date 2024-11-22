@@ -1,6 +1,5 @@
 package org.example.controllers;
 
-import org.example.models.Answer;
 import org.example.models.Question;
 import org.example.models.QuestionType;
 import org.example.models.Survey;
@@ -31,14 +30,12 @@ public class SurveyWebsiteController {
      *
      * @param prompt - representing the question prompt
      * @param questionType -representing the type(s) of acceptable answers to the problem
-     * @param answers - representing the acceptable answer(s)
      */
-    public void addQuestion(String prompt, QuestionType questionType, List<Answer> answers){
-        List<Question> surveyQuestions = this.survey.getQuestions();
+    public void addQuestion(String prompt, QuestionType questionType){
         Question newQuestion = new Question();
         newQuestion.setQuestion_prompt(prompt);
         newQuestion.setQuestionType(questionType);
-        this.survey.getQuestions().add(newQuestion);
+
     }
 
     /**
