@@ -3,7 +3,8 @@ package org.example.models;
 import lombok.*;
 
 import jakarta.persistence.*;
-import java.util.List;
+import org.hibernate.annotations.ColumnDefault;
+
 
 @Entity
 @Data
@@ -29,6 +30,10 @@ public class Question {
 
     @Column(name = "q_order")
     private int q_order;
+
+    @Column(name = "page_number")
+    @ColumnDefault("1")
+    private int page_number;
 
     @Column(name = "mc_number")
     private int mc_number;

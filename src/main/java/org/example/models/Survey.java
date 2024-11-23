@@ -1,13 +1,8 @@
 package org.example.models;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.*;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Class that represents the main Survey class
@@ -26,7 +21,7 @@ public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "sId")
-    private int sid;
+    private long sid;
 
     @Column(name = "user_Id")
     private long user_id;
