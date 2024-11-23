@@ -1,64 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KoalaKuestionnaire - Sign Up</title>
-  <script src="https://unpkg.com/htmx.org"></script>
-  <link rel="stylesheet" href="/css/styles.css">
+  <title>Sign Up</title>
 </head>
 <body>
-<div class="container">
-  <!-- Header Section -->
-  <div class="header">
-    <!-- Koala Icon -->
-    <img src="/images/Logo.png" alt="Koala Icon" class="icon" />
-  </div>
+<h1>Sign Up</h1>
+<form action="/signup" method="post">
+  <input type="text" name="name" placeholder="Name" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <input type="text" name="username" placeholder="Username" required>
+  <button type="submit">Sign Up</button>
+</form>
 
-  <!-- Main Content Section -->
-  <div class="main-content">
-    <h1>Create Your KoalaKuestionnaire Account</h1>
-    <p>Fill in the details to sign up:</p>
-
-    <!-- Sign Up Form -->
-    <form action="/signup" method="POST">
-      <div class="form-group">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="userId">User ID:</label>
-        <input type="text" id="userId" name="userId" placeholder="Choose your User ID" required>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-      </div>
-
-      <div class="button-group">
-        <!-- Submit Button to Sign Up -->
-        <button type="submit" class="action-button">Sign Up</button>
-      </div>
-    </form>
-
-    <p>Already have an account?</p>
-    <!-- Redirect to Sign In Page -->
-    <div class="button-group">
-      <button class="action-button"
-              hx-get="/signin"
-              hx-target="body"
-              hx-swap="outerHTML">
-        Sign In
-      </button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
