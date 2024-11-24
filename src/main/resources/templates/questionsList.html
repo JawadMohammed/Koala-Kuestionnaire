@@ -1,0 +1,10 @@
+<!-- questionsList.html -->
+<div th:fragment="questionsList(questions)">
+    <ul>
+        <li th:each="question : ${questions}">
+            <span th:text="${question.question_prompt}"></span> -
+            <span th:text="${question.questionType}"></span>
+        </li>
+    </ul>
+    <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>
+</div>
