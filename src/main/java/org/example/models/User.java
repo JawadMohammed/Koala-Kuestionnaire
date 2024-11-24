@@ -1,38 +1,26 @@
 package org.example.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "\"user\"")
-public abstract class User {
-    @Column(name = "Name")
+@Data
+@Table(name = "user")
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")  // Column name in the database
+    private long id;
+
+    @Column(name = "name")
     private String name;
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
     @Column(name = "username")
     private String username;
-    @Id
-    @Column(name = "user_id")
-    private int id;
 
-    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPassword() { return password; }
-
-    public void setPassword(String password) {}
 }
