@@ -1,0 +1,23 @@
+<div th:switch="${questionType}">
+    <div th:case="'TEXT'">
+        <p>No additional fields for Text questions.</p>
+    </div>
+    <div th:case="'MULTI_SELECT'">
+        <label for="multiSelectOptions">Options (comma-separated):</label>
+        <input type="text" id="multiSelectOptions" name="multiSelectOptions" />
+    </div>
+    <div th:case="'MULTIPLE_CHOICE'">
+        <label for="multipleChoiceOptions">Options (comma-separated):</label>
+        <input type="text" id="multipleChoiceOptions" name="multipleChoiceOptions" />
+    </div>
+    <div th:case="'RANGE'">
+        <label for="minValue">Range Start:</label>
+        <input type="number" id="minValue" name="minValue" />
+        <label for="maxValue">Range End:</label>
+        <input type="number" id="maxValue" name="maxValue" />
+    </div>
+    <div th:case="*">
+        <p>Please select a valid question type.</p>
+    </div>
+</div>
+

@@ -20,12 +20,33 @@ public class Survey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "sId")
+    @Column(name = "Id")
     private long sid;
 
     @Column(name = "user_Id")
     private long user_id;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
     @Column(name = "closed")
     private Boolean closed;
+
+    @Setter
+    @Column(name = "title")
+    private String title; // Add this field
+
+    @Setter
+    @Column(name = "description")
+    private String description; // Add this field
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+
+
+
 }

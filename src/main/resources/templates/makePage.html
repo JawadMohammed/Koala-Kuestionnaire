@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Survey</title>
+    <script>
+        function updateFormFields() {
+            const questionType = document.getElementById("questionType").value;
+            const typeSpecificFields = document.getElementById("typeSpecificFields");
+
+            // Clear previous fields
+            typeSpecificFields.innerHTML = "";
+
+            // Add fields dynamically based on selected question type
+            if (questionType === "TEXT") {
+                typeSpecificFields.innerHTML = "<p>No additional fields required for Text questions.</p>";
+            } else if (questionType === "MULTI_SELECT") {
+                typeSpecificFields.innerHTML = `
+                    <label for="multiSelectOptions">Multi-Select Options (comma-separated):</label>
+                    <input type="text" id="multiSelectOptions" name="multiSelectOptions" />
+                `;
+            } else if (questionType === "MULTIPLE_CHOICE") {
+                typeSpecificFields.innerHTML = `
+                    <label for="multipleChoiceOptions">Multiple Choice Options (comma-separated):</label>
+                    <input type="text" id="multipleChoiceOptions" name="multipleChoiceOptions" />
+                `;
+            } else if (questionType === "RANGE") {
+                typeSpecificFields.innerHTML = `
+                    <label for="minValue">Range Start:</label>
+                    <input type="number" id="minValue" name="minValue" />
+
+                    <label for="maxValue">Range End:</label>
+                    <input type="number" id="maxValue" name="maxValue" />
+                `;
+            } else {
+                typeSpecificFields.innerHTML = "<p>Please select a valid question type.</p>";
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- Survey Details -->
+<h1 th:text="${survey.title}">Survey Title</h1>
+<p th:text="${survey.description}">Survey Description</p>
+
+<!-- Questions Section -->
+<h2>Questions</h2>
+<div id="questionsList">
+    <ul>
+        <li th:each="question : ${questions}">
+            <span th:text="${question.question_prompt}"></span> - <span th:text="${question.questionType}"></span>
+        </li>
+    </ul>
+    <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>
+</div>
+
+<!-- Add Question Form -->
+<h3>Add a New Question</h3>
+<form action="/questions/add" method="post">
+    <input type="hidden" name="surveyId" th:value="${survey.sid}" />
+
+    <label for="prompt">Question Prompt:</label>
+    <input type="text" id="prompt" name="prompt" required />
+
+    <label for="questionType">Question Type:</label>
+    <select id="questionType" name="questionType" onchange="updateFormFields()">
+        <option value="">Select Question Type</option>
+        <option value="TEXT">Text</option>
+        <option value="MULTI_SELECT">Multi-Select</option>
+        <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+        <option value="RANGE">Range</option>
+    </select>
+
+    <!-- Dynamic Fields -->
+    <div id="typeSpecificFields"></div>
+
+    <button type="submit">Add Question</button>
+</form>
+</body>
+</html>
