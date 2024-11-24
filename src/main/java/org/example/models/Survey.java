@@ -1,13 +1,8 @@
 package org.example.models;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.*;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Class that represents the main Survey class
