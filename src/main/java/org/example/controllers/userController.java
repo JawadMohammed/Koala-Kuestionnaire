@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 public class userController {
@@ -47,5 +50,25 @@ public class userController {
         System.out.println(user.getId() + "  "+ user.getName() + "  "+ user.getPassword() + " "+ user.getUsername());
         // Redirect to the home page after successful sign-up
         return "homePage";  // Redirect to /home page after signup
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // Check if the passwords match
+            if (user.getPassword().equals(password)) {
+                return "surveyList";  // Redirect to QA page if login is successful
+            } else {
+                model.addAttribute("error", "Wrong username or password");
+            }
+        } else {
+            model.addAttribute("error", "User not found");
+        }
+
+        return "homePage";  // Redirect back to home page with error message
     }
 }
