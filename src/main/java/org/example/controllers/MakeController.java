@@ -31,7 +31,7 @@ public class MakeController {
         Survey survey = new Survey();
         survey.setUser_id(1); // Hardcoded user ID for now
         model.addAttribute("survey", survey); // Add empty survey object for the form
-        return "createSurvey"; // Ensure this matches your HTML file name
+        return "createSurvey";
     }
 
     @PostMapping("/make")
