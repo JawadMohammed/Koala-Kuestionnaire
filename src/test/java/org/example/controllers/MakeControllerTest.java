@@ -52,7 +52,7 @@ public class MakeControllerTest {
         emptySurvey.setUser_id(1);
 
         // Act
-        String viewName = makeController.makeSurveyForm(model);
+        String viewName = makeController.makeSurveyForm((long)1, null, model);
 
         // Assert
         assertEquals("createSurvey", viewName);
@@ -69,10 +69,10 @@ public class MakeControllerTest {
         when(surveyRepository.save(any(Survey.class))).thenReturn(survey);
 
         // Act
-        String redirectUrl = makeController.createSurvey(survey, model);
+        String redirectUrl = makeController.createSurvey((long)1, survey, model);
 
         // Assert
-        assertEquals("redirect:/surveys/" + survey.getSid(), redirectUrl);
+        assertEquals("redirect:/user/"+1+"/surveys/" + survey.getSid(), redirectUrl);
         verify(surveyRepository).save(survey);
         verify(model).addAttribute(eq("survey"), eq(survey));
 

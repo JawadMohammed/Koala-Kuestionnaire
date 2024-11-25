@@ -22,5 +22,5 @@ public class User {
     @Column(name = "username")
     private String username;
 
-
+    public long getId() {return id;}
 }

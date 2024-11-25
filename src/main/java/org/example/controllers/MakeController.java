@@ -26,24 +26,34 @@ public class MakeController {
         this.rangeQuestionRepository = rangeQuestionRepository;
     }
 
-    @GetMapping("/make")
-    public String makeSurveyForm(Model model) {
-        Survey survey = new Survey();
-        survey.setUser_id(1); // Hardcoded user ID for now
-        model.addAttribute("survey", survey); // Add empty survey object for the form
-        return "createSurvey";
+    @GetMapping("/user/{userId}/make")
+    public String makeSurveyForm(@PathVariable Long userId,
+                                 @RequestParam(required = false) Long surveyId,
+                                 Model model) {
+        Survey survey;
+        if (surveyId != null) {
+            // Load existing survey for editing
+            survey = surveyRepository.findById(surveyId)
+                    .orElseThrow(() -> new RuntimeException("Survey not found"));
+        } else {
+            // Create new survey
+            survey = new Survey();
+            survey.setUserId(userId);
+        }
+        model.addAttribute("survey", survey);
+        return "createSurvey"; // Ensure this matches your HTML file name
     }
 
-    @PostMapping("/make")
-    public String createSurvey(@ModelAttribute Survey survey, Model model) {
-        survey.setUser_id(1); // Set hardcoded user ID for now
+    @PostMapping("/user/{userId}/make")
+    public String createSurvey(@PathVariable Long userId, @ModelAttribute Survey survey, Model model)  {
+        survey.setUserId(userId);// Set hardcoded user ID for now
         survey.setClosed(false);
         Survey savedSurvey = surveyRepository.save(survey); // Save survey to database
         System.out.println("Saved Survey: " + savedSurvey);
 
         // Redirect to survey details page
         model.addAttribute("survey", savedSurvey);
-        return "redirect:/surveys/" + savedSurvey.getSid(); // Redirect to the survey details
+        return "redirect:/user/"+userId+"/surveys/" + savedSurvey.getSid(); // Redirect to the survey details
     }
 
     // Step 3: Load Survey Details with Existing Questions
@@ -55,6 +65,7 @@ public class MakeController {
         model.addAttribute("questions", questions != null ? questions : List.of());
         return "makePage";
     }
+
 
 
     @PostMapping("/questions/add")
@@ -142,9 +153,6 @@ public class MakeController {
         // Return updated question list fragment
         return "questionsList :: questionsList";
     }
-
-
-
 
 
 

@@ -45,9 +45,7 @@ public class userController {
     @PostMapping("/signup")
     public String signUp(@ModelAttribute User user) {
         // Save the user object to the database
-        System.out.println(user.getId() + "  "+ user.getName() + "  "+ user.getPassword() + " "+ user.getUsername());
         user = userRepository.save(user);
-        System.out.println(user.getId() + "  "+ user.getName() + "  "+ user.getPassword() + " "+ user.getUsername());
         // Redirect to the home page after successful sign-up
         return "homePage";  // Redirect to /home page after signup
     }
@@ -61,9 +59,10 @@ public class userController {
 
             // Check if the passwords match
             if (user.getPassword().equals(password)) {
-                return "surveyList";  // Redirect to QA page if login is successful
+                System.out.println(user.getUsername() + " " + user.getId());
+                return "redirect:/user/" + user.getId() + "/surveys";  // Ensure this URL is handled by the controller
             } else {
-                model.addAttribute("error", "Wrong username or password");
+                model.addAttribute("error", "Invalid Credentials");
             }
         } else {
             model.addAttribute("error", "User not found");
@@ -71,4 +70,5 @@ public class userController {
 
         return "homePage";  // Redirect back to home page with error message
     }
+
 }

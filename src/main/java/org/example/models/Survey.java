@@ -21,12 +21,12 @@ import java.time.LocalDateTime;
 public class Survey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long sid;
 
     @Column(name = "user_Id")
-    private long user_id;
+    private long userId;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -49,6 +49,6 @@ public class Survey {
     }
 
 
-
+    public void setUser_id(long userId) {this.userId = userId;}
 
 }
