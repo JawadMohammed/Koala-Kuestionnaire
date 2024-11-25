@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoalaKuestionnaire - Take A Kuestionnaire! </title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div id="survey" class="container">
+    <!-- Header Section -->
+    <div class="header">
+        <img src="/images/Logo.png" alt="Koala Icon" class="icon" />
+        <h2 class="header">Kuestionnaire</h2>
+
+    </div>
+
+    <div id="questions" class="main-content">
+
+        <div th:each="question, questionIndex : ${questions}">
+            <div class="question-container">
+                <label th:text="${question.question_prompt}"></label>
+
+                <!-- Text Question -->
+                <div th:if="${question.questionType == T(org.example.models.QuestionType).TEXT}">
+                    <input type="text" th:name="${question.qid}" class="survey-id-field"/>
+                </div>
+
+                <!-- Multiple Choice -->
+                <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTIPLE_CHOICE}">
+                    <div th:each="option : ${options.get(questionIndex.index)}">
+                        <input type="radio" th:value="${option}" th:name="${question.qid}" />
+                        <span th:text="${option}"></span>
+                    </div>
+                </div>
+
+                <!-- Multi-Select -->
+                <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTI_SELECT}">
+                    <div th:each="option : ${options.get(questionIndex.index)}">
+                        <input type="checkbox" th:value="${option}" th:name="${question.qid}" />
+                        <span th:text="${option}"></span>
+                    </div>
+                </div>
+
+                <!-- Range -->
+                <div th:if="${question.questionType == T(org.example.models.QuestionType).RANGE}">
+                    <label>From:</label>
+                    <input type="number" th:value="${options.get(questionIndex.index).get(0)}" th:name="${question.qid+ '_min'}" class="survey-id-field"/>
+                    <label>To:</label>
+                    <input type="number" th:value="${options.get(questionIndex.index).get(1)}" th:name="${question.qid+ '_max'}" class="survey-id-field"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Survey Action Buttons (e.g., Submit Button) -->
+    <div class="button-group">
+        <button class="action-button">Submit</button>
+    </div>
+</div>
+</body>
+</html>

@@ -20,7 +20,7 @@ public class Question {
     private long qid;
 
     @Column
-    private QuestionType questionType;
+    public QuestionType questionType;
 
     @Column(name = "survey_Id")
     private long sid;
