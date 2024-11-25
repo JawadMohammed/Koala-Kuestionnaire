@@ -186,6 +186,45 @@ public class takeController {
     public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
         System.out.println("postHit");
         for (Map.Entry<String, String> entry : formData.entrySet()) {
+            questionRepository.findById(Integer.valueOf(entry.getKey())).ifPresent(
+                    question -> {
+                        switch(question.getQuestionType()) {
+                            case QuestionType.TEXT:
+                                TextAnswer ta = new TextAnswer();
+                                ta.setQ_id(Integer.parseInt(entry.getKey()));
+                                ta.setAnswer(entry.getValue());
+                                textAnswerRepository.save(ta);
+                                break;
+                            case QuestionType.RANGE:
+                                RangeAnswer ra = new RangeAnswer();
+                                ra.setQ_id(Integer.parseInt(entry.getKey()));
+                                ra.setAnswer(Integer.parseInt(entry.getValue()));
+                                rangeAnswerRepository.save(ra);
+
+
+                                break;
+                            case QuestionType.MULTI_SELECT:
+                                MultiSelectAnswer ms = new MultiSelectAnswer();
+                                ms.setQ_id(Integer.parseInt(entry.getKey()));
+                                ms.setAnswer(entry.getValue());
+                                multiSelectAnswerRepository.save(ms);
+
+                                break;
+                            case QuestionType.MULTIPLE_CHOICE:
+                                MultipleChoiceAnswer mc = new MultipleChoiceAnswer();
+                                mc.setQ_id(Integer.parseInt(entry.getKey()));
+                                mc.setAnswer(entry.getValue());
+                                multipleChoiceAnswerRepository.save(mc);
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+
+
+            );
 
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
