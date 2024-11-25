@@ -5,17 +5,23 @@
     <title>Create Survey</title>
 </head>
 <body>
-<h1>Create a Survey for User ID: <span th:text="${survey.userId}"></span></h1>
+<h1>Create or Edit Survey for User ID: <span th:text="${survey.userId}"></span></h1>
 
+<!-- Form for creating or editing the survey -->
 <form th:action="@{/user/{userId}/make(userId=${survey.userId})}" method="post">
+    <!-- Hidden field for survey ID, required for editing existing surveys -->
+    <input type="hidden" name="surveyId" th:value="${survey.sid}">
+
+    <!-- Input for the survey title -->
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br>
+    <input type="text" id="title" name="title" th:value="${survey.title}" required><br>
 
+    <!-- Input for the survey description -->
     <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required><br>
+    <textarea id="description" name="description" th:text="${survey.description}" required></textarea><br>
 
-    <button type="submit">Create Survey</button>
+    <!-- Submit button to create or edit the survey -->
+    <button type="submit">Save Survey</button>
 </form>
-
 </body>
 </html>

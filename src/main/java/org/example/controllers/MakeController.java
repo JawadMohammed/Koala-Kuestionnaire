@@ -49,11 +49,10 @@ public class MakeController {
         survey.setUserId(userId);// Set hardcoded user ID for now
         survey.setClosed(false);
         Survey savedSurvey = surveyRepository.save(survey); // Save survey to database
-        System.out.println("Saved Survey: " + savedSurvey);
 
         // Redirect to survey details page
         model.addAttribute("survey", savedSurvey);
-        return "redirect:/user/"+userId+"/surveys/" + savedSurvey.getSid(); // Redirect to the survey details
+        return "redirect:/surveys/" + savedSurvey.getSid();
     }
 
     // Step 3: Load Survey Details with Existing Questions
