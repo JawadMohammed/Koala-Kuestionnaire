@@ -15,12 +15,13 @@ import lombok.*;
 public class Range_question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long rangeId;
 
     private long qid; // Foreign key
 
-    private int start;
-    private int end;
+    private int start = 2;
+
+    private int end = 9;
 
 }
