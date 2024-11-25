@@ -15,7 +15,7 @@ import lombok.Setter;
 public class MultiSelect {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long msId;
 
     private long qid; // Foreign key
