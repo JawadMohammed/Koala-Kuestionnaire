@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import org.example.models.*;
 import org.example.repositories.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class takeController {
@@ -133,7 +135,7 @@ public class takeController {
     public QuestionType[] getQuestionTypes() {
         return QuestionType.values();
     }
-    @GetMapping("/takesurvey/{survey_id}")
+    @GetMapping("/take/{survey_id}")
     public String takeASurvey(Model model, @PathVariable Long survey_id){
 
         List<Question> testqs = questionRepository.findBySid(survey_id);
@@ -172,20 +174,32 @@ public class takeController {
         }
 
 
-        System.out.println(testqs);
-        System.out.println(listOfLists.get(0));
-        System.out.println(listOfLists.get(1));
-        System.out.println(listOfLists.get(2));
-        System.out.println(listOfLists.get(3));
         model.addAttribute("questions", testqs);
         model.addAttribute("options", listOfLists);
+        model.addAttribute("surveyId", survey_id);
 
         return "takeASurvey";
 
     }
-    @GetMapping("/take")
-    public void getSurvey(@RequestParam Integer survey_id){
 
+    @PostMapping("/take/{survey_id}")
+    public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
+        System.out.println("postHit");
+        for (Map.Entry<String, String> entry : formData.entrySet()) {
+
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        model.addAttribute("surveyId", survey_id);
+        return "taken";
+    }
+    @GetMapping("/take")
+    public String askSurvey(){
+        return "take";
+    }
+
+    @PostMapping("/take")
+    public String findSurvey(@RequestParam Long survey_id){
+        return "redirect:/take/"+survey_id;
     }
 
 }

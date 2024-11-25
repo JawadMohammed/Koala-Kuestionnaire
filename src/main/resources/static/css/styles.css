@@ -11,7 +11,7 @@ body {
 
 .container {
     background-color: #d3c2eb;
-    width: 400px;
+    width: 600px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -58,7 +58,7 @@ body {
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 10px;
+
 }
 
 .action-button {
@@ -70,4 +70,15 @@ body {
     font-size: 16px;
     cursor: pointer;
     width: 80px;
+}
+.option-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.option-container input[type="radio"],
+.option-container input[type="checkbox"] {
+    margin-right: 5px;
 }

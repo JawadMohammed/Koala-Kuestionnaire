@@ -12,11 +12,15 @@
     <!-- Header Section -->
     <div class="header">
         <img src="/images/Logo.png" alt="Koala Icon" class="icon" />
-        <h2 class="header">Kuestionnaire</h2>
+        <h2>
+        <label th:text="${surveyId + ' Kuestionnaire'}"></label>
+        </h2>
 
     </div>
+    <form th:action="@{/take/{survey_id}(survey_id=${surveyId})}" method="POST">
 
-    <div id="questions" class="main-content">
+
+        <div id="questions" class="main-content">
 
         <div th:each="question, questionIndex : ${questions}">
             <div class="question-container">
@@ -29,7 +33,7 @@
 
                 <!-- Multiple Choice -->
                 <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTIPLE_CHOICE}">
-                    <div th:each="option : ${options.get(questionIndex.index)}">
+                    <div class="option-container" th:each="option : ${options.get(questionIndex.index)}">
                         <input type="radio" th:value="${option}" th:name="${question.qid}" />
                         <span th:text="${option}"></span>
                     </div>
@@ -37,27 +41,33 @@
 
                 <!-- Multi-Select -->
                 <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTI_SELECT}">
-                    <div th:each="option : ${options.get(questionIndex.index)}">
+                    <div class="option-container" th:each="option : ${options.get(questionIndex.index)}">
                         <input type="checkbox" th:value="${option}" th:name="${question.qid}" />
                         <span th:text="${option}"></span>
                     </div>
                 </div>
 
+
                 <!-- Range -->
                 <div th:if="${question.questionType == T(org.example.models.QuestionType).RANGE}">
-                    <label>From:</label>
-                    <input type="number" th:value="${options.get(questionIndex.index).get(0)}" th:name="${question.qid+ '_min'}" class="survey-id-field"/>
-                    <label>To:</label>
-                    <input type="number" th:value="${options.get(questionIndex.index).get(1)}" th:name="${question.qid+ '_max'}" class="survey-id-field"/>
+                    <label>Please pick a number from:</label>
+                    <label th:text="${options.get(questionIndex.index).get(0) + ' to ' + options.get(questionIndex.index).get(1)} "></label>
+
+                    <input type="number" th:value="${options.get(questionIndex.index).get(0)}" th:name="${question.qid}" class="survey-id-field"/>
                 </div>
+
             </div>
+
         </div>
+
+
     </div>
 
-    <!-- Survey Action Buttons (e.g., Submit Button) -->
     <div class="button-group">
         <button class="action-button">Submit</button>
     </div>
+    </form>
+
 </div>
 </body>
 </html>
