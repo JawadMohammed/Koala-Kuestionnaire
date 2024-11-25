@@ -215,7 +215,6 @@ public class takeController {
                                 mc.setQ_id(Integer.parseInt(entry.getKey()));
                                 mc.setAnswer(entry.getValue());
                                 multipleChoiceAnswerRepository.save(mc);
-
                                 break;
 
                             default:
