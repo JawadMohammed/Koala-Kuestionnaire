@@ -10,10 +10,14 @@
 <h2>Questions</h2>
 <ul>
     <li th:each="question : ${survey.questions}">
-        <span th:text="${question.prompt}">Question Prompt</span>
+        <span th:text="${question.question_prompt}">Question Prompt</span>
     </li>
 </ul>
 
-<a th:href="@{/questions/new/{surveyId}(surveyId=${survey.id})}">Add Question</a>
+<form action="/questions/add" method="post" th:object="${question}">
+    <label for="question_prompt">New Question:</label>
+    <input type="text" id="question_prompt" name="question_prompt" th:field="*{question_prompt}" required />
+    <button type="submit">Add Question</button>
+</form>
 </body>
 </html>

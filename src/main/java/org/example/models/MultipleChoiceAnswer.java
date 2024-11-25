@@ -17,5 +17,7 @@ public class MultipleChoiceAnswer {
 
     private int q_id;
 
+    private int submission_id;
+
     private String answer;
 }

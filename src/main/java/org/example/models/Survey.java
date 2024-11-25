@@ -4,6 +4,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 /**
  * Class that represents the main Survey class
  *
@@ -19,13 +21,34 @@ import jakarta.persistence.*;
 public class Survey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "sId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private long sid;
 
     @Column(name = "user_Id")
-    private long user_id;
+    private long userId;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "closed")
     private Boolean closed;
+
+    @Setter
+    @Column(name = "title")
+    private String title; // Add this field
+
+    @Setter
+    @Column(name = "description")
+    private String description; // Add this field
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+
+    public void setUser_id(long userId) {this.userId = userId;}
+
 }

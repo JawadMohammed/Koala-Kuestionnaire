@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Submission Details</title>
+</head>
+<body>
+<h1>Submission Details for ID: <span th:text="${submission_id}"></span></h1>
+
+<h2>Answers</h2>
+
+<!-- Text Answers -->
+<h3>Text Answers</h3>
+<ul th:if="${textAnswers != null}">
+    <li th:each="answer : ${textAnswers}">
+        Question ID: <span th:text="${answer.q_id}"></span>,
+        Answer: <span th:text="${answer.answer}"></span>
+    </li>
+</ul>
+
+<!-- Multiple Choice Answers -->
+<h3>Multiple Choice Answers</h3>
+<ul th:if="${mcAnswers != null}">
+    <li th:each="answer : ${mcAnswers}">
+        Question ID: <span th:text="${answer.q_id}"></span>,
+        Answer: <span th:text="${answer.answer}"></span>
+    </li>
+</ul>
+
+<!-- Multi-Select Answers -->
+<h3>Multi-Select Answers</h3>
+<ul th:if="${msAnswers != null}">
+    <li th:each="answer : ${msAnswers}">
+        Question ID: <span th:text="${answer.q_id}"></span>,
+        Answer: <span th:text="${answer.answer}"></span>
+    </li>
+</ul>
+
+<!-- Range Answers -->
+<h3>Range Answers</h3>
+<ul th:if="${rangeAnswers != null}">
+    <li th:each="answer : ${rangeAnswers}">
+        Question ID: <span th:text="${answer.q_id}"></span>,
+        Answer: <span th:text="${answer.answer}"></span>
+    </li>
+</ul>
+
+<a href="/submissions">Back to Submissions</a>
+</body>
+</html>

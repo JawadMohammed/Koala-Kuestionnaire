@@ -1,54 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KoalaKuestionnaire - Sign In</title>
+    <title>Login Page</title>
     <script src="https://unpkg.com/htmx.org"></script>
-    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<div class="container">
-    <!-- Header Section -->
-    <div class="header">
-        <!-- Koala Icon -->
-        <img src="/images/Logo.png" alt="Koala Icon" class="icon" />
+<h1>Welcome to KoalaKuest</h1>
+
+<!-- Login Form -->
+<div id="login-form">
+    <form hx-post="/login" hx-target="#login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Display error message for invalid credentials -->
+    <div id="error-message" style="color: red;">
+        <p th:if="${error}" th:text="${error}"></p>
     </div>
 
-    <!-- Main Content Section -->
-    <div class="main-content">
-        <h1>Welcome to KoalaKuestionnaire!</h1>
-        <p>Please sign in with your User ID and Password:</p>
-
-        <!-- Sign In Form -->
-        <form action="/signin" method="POST">
-            <div class="form-group">
-                <label for="userId">User ID:</label>
-                <input type="text" id="userId" name="userId" placeholder="Enter your User ID" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            </div>
-
-            <div class="button-group">
-                <!-- Submit Button to Sign In -->
-                <button type="submit" class="action-button">Submit</button>
-            </div>
-        </form>
-
-        <p>Don't have an account?</p>
-        <!-- Redirect to Sign Up Page -->
-        <div class="button-group">
-            <button class="action-button"
-                    hx-get="/signup"
-                    hx-target="body"
-                    hx-swap="outerHTML">
-                Sign Up
-            </button>
-        </div>
-    </div>
+    <!-- Sign Up Button -->
+    <button hx-get="/register" hx-target="body">Sign Up</button>
 </div>
 </body>
 </html>
