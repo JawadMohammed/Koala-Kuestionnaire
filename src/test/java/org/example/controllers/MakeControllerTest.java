@@ -72,7 +72,7 @@ public class MakeControllerTest {
         String redirectUrl = makeController.createSurvey((long)1, survey, model);
 
         // Assert
-        assertEquals("redirect:/user/"+1+"/surveys/" + survey.getSid(), redirectUrl);
+        assertEquals("redirect:/surveys/" + survey.getSid(), redirectUrl);
         verify(surveyRepository).save(survey);
         verify(model).addAttribute(eq("survey"), eq(survey));
 
