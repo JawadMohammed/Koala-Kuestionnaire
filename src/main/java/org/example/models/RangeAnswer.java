@@ -17,5 +17,7 @@ public class RangeAnswer {
 
     private int q_id;
 
+    private int submission_id;
+
     private int answer;
 }

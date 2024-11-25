@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Survey</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Dynamically update form fields based on question type
+            document.getElementById("questionType").addEventListener("change", () => {
+                const questionType = document.getElementById("questionType").value;
+                const typeSpecificFields = document.getElementById("typeSpecificFields");
+
+                // Clear previous fields
+                typeSpecificFields.innerHTML = "";
+
+                // Add fields dynamically based on selected question type
+                if (questionType === "TEXT") {
+                    typeSpecificFields.innerHTML = "<p>No additional fields required for Text questions.</p>";
+                } else if (questionType === "MULTI_SELECT") {
+                    typeSpecificFields.innerHTML = `
+                        <label for="multiSelectOptions">Multi-Select Options (comma-separated):</label>
+                        <input type="text" id="multiSelectOptions" name="multiSelectOptions" />
+                    `;
+                } else if (questionType === "MULTIPLE_CHOICE") {
+                    typeSpecificFields.innerHTML = `
+                        <label for="multipleChoiceOptions">Multiple Choice Options (comma-separated):</label>
+                        <input type="text" id="multipleChoiceOptions" name="multipleChoiceOptions" />
+                    `;
+                } else if (questionType === "RANGE") {
+                    typeSpecificFields.innerHTML = `
+                        <label for="minValue">Range Start:</label>
+                        <input type="number" id="minValue" name="minValue" />
+
+                        <label for="maxValue">Range End:</label>
+                        <input type="number" id="maxValue" name="maxValue" />
+                    `;
+                } else {
+                    typeSpecificFields.innerHTML = "<p>Please select a valid question type.</p>";
+                }
+            });
+
+            // Handle form submission with AJAX
+            document.getElementById("addQuestionForm").addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                // Gather form data
+                const formData = new FormData(event.target);
+
+                try {
+                    const response = await fetch("/questions/add", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const updatedQuestionsHtml = await response.text();
+                        document.getElementById("questionsList").innerHTML = updatedQuestionsHtml;
+
+                        event.target.reset();
+                        document.getElementById("typeSpecificFields").innerHTML = ""; // Clear additional fields
+                    } else {
+                        console.error("Failed to add question:", response.status);
+                        alert("Error adding the question. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error during form submission:", error);
+                    alert("Something went wrong while adding the question.");
+                }
+            });
+
+            // Handle question removal
+            window.removeQuestion = async function(questionId, surveyId) {
+                if (!confirm("Are you sure you want to remove this question?")) {
+                    return; // User canceled
+                }
+
+                try {
+                    const response = await fetch("/questions/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: new URLSearchParams({
+                            questionId: questionId,
+                            surveyId: surveyId,
+                        }),
+                    });
+
+                    if (response.ok) {
+                        const updatedQuestionsHtml = await response.text();
+
+                        // Dynamically update the questions list with the returned HTML
+                        const questionsListContainer = document.getElementById("questionsList");
+                        questionsListContainer.innerHTML = updatedQuestionsHtml;
+                    } else {
+                        console.error("Failed to remove question:", response.status);
+                        alert("Error removing the question. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error during question removal:", error);
+                    alert("Something went wrong while removing the question.");
+                }
+            };
+
+        });
+    </script>
+</head>
+<body>
+<!-- Survey Details -->
+<h1 th:text="${survey.title}">Survey Title</h1>
+<p th:text="${survey.description}">Survey Description</p>
+
+<!-- Questions Section -->
+<h2>Questions</h2>
+<div id="questionsList">
+    <ul>
+        <li th:each="question : ${questions}">
+            <span th:text="${question.question_prompt}"></span> -
+            <span th:text="${question.questionType}"></span>
+            <button type="button" th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'">Remove</button>
+
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>
+</div>
+
+<!-- Add Question Form -->
+<h3>Add a New Question</h3>
+<form id="addQuestionForm">
+    <input type="hidden" name="surveyId" th:value="${survey.sid}" />
+
+    <label for="prompt">Question Prompt:</label>
+    <input type="text" id="prompt" name="prompt" required />
+
+    <label for="questionType">Question Type:</label>
+    <select id="questionType" name="questionType">
+        <option value="">Select Question Type</option>
+        <option value="TEXT">Text</option>
+        <option value="MULTI_SELECT">Multi-Select</option>
+        <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+        <option value="RANGE">Range</option>
+    </select>
+
+    <!-- Dynamic Fields -->
+    <div id="typeSpecificFields"></div>
+
+    <button type="submit">Add Question</button>
+</form>
+</body>
+</html>
