@@ -45,15 +45,15 @@ public class userController {
     @PostMapping("/signup")
     public String signUp(@ModelAttribute User user) {
         // Save the user object to the database
-        System.out.println(user.getId() + "  "+ user.getName() + "  "+ user.getPassword() + " "+ user.getUsername());
         user = userRepository.save(user);
-        System.out.println(user.getId() + "  "+ user.getName() + "  "+ user.getPassword() + " "+ user.getUsername());
         // Redirect to the home page after successful sign-up
         return "homePage";  // Redirect to /home page after signup
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        Model model) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isPresent()) {
@@ -61,7 +61,8 @@ public class userController {
 
             // Check if the passwords match
             if (user.getPassword().equals(password)) {
-                return "surveyList";  // Redirect to QA page if login is successful
+                // Redirect to the user-specific surveys page
+                return "redirect:/user/" + user.getId() + "/surveys";
             } else {
                 model.addAttribute("error", "Wrong username or password");
             }
@@ -69,6 +70,6 @@ public class userController {
             model.addAttribute("error", "User not found");
         }
 
-        return "homePage";  // Redirect back to home page with error message
+        return "homePage"; // Redirect back to home page with error message
     }
 }
