@@ -184,7 +184,6 @@ public class takeController {
 
     @PostMapping("/take/{survey_id}")
     public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
-        System.out.println("postHit");
         for (Map.Entry<String, String> entry : formData.entrySet()) {
             questionRepository.findById(Integer.valueOf(entry.getKey())).ifPresent(
                     question -> {
@@ -195,6 +194,7 @@ public class takeController {
                                 ta.setAnswer(entry.getValue());
                                 textAnswerRepository.save(ta);
                                 break;
+
                             case QuestionType.RANGE:
                                 RangeAnswer ra = new RangeAnswer();
                                 ra.setQ_id(Integer.parseInt(entry.getKey()));
