@@ -62,7 +62,7 @@ public class userController {
                 System.out.println(user.getUsername() + " " + user.getId());
                 return "redirect:/user/" + user.getId() + "/surveys";  // Ensure this URL is handled by the controller
             } else {
-                model.addAttribute("error", "Wrong username or password");
+                model.addAttribute("error", "Invalid Credentials");
             }
         } else {
             model.addAttribute("error", "User not found");

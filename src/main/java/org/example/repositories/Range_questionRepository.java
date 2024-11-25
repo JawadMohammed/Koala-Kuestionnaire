@@ -7,3 +7,4 @@ import java.util.List;
 public interface Range_questionRepository extends JpaRepository<Range_question, Integer> {
 
     List<Range_question> findByqid(long qid);
+}

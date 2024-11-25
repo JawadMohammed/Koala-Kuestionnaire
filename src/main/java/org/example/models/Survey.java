@@ -49,6 +49,6 @@ public class Survey {
     }
 
 
-
+    public void setUser_id(long userId) {this.userId = userId;}
 
 }
