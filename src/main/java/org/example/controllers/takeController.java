@@ -17,6 +17,10 @@ public class takeController {
 
     @Autowired
     private final QuestionRepository questionRepository;
+
+    @Autowired
+    private final SubmissionRepository submissionRepository;
+
     @Autowired
     private final TextAnswerRepository textAnswerRepository;
 
@@ -37,10 +41,12 @@ public class takeController {
 
 
 
+
+
     public takeController(QuestionRepository qp,TextAnswerRepository taR,
                           Range_questionRepository rqR, RangeAnswerRepository raR,
                           MultipleChoiceRepository mcR , MultipleChoiceAnswerRepository mcaR,
-                          MultiSelectRepository msR, MultiSelectAnswerRepository msaR ){
+                          MultiSelectRepository msR, MultiSelectAnswerRepository msaR , SubmissionRepository sR){
         this.questionRepository = qp;
         this.textAnswerRepository = taR;
         this.range_questionRepository = rqR;
@@ -49,6 +55,7 @@ public class takeController {
         this.multipleChoiceAnswerRepository = mcaR;
         this.multiSelectRepository = msR;
         this.multiSelectAnswerRepository = msaR;
+        this.submissionRepository = sR;
 
     }
     @GetMapping("/nukeeverything")
@@ -184,6 +191,8 @@ public class takeController {
 
     @PostMapping("/take/{survey_id}")
     public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
+        Submission submission_token = new Submission();
+       submissionRepository.save(submission_token);
         for (Map.Entry<String, String> entry : formData.entrySet()) {
             questionRepository.findById(Long.valueOf(entry.getKey())).ifPresent(
                     question -> {
@@ -192,6 +201,7 @@ public class takeController {
                                 TextAnswer ta = new TextAnswer();
                                 ta.setQ_id(Integer.parseInt(entry.getKey()));
                                 ta.setAnswer(entry.getValue());
+                                ta.setSubmission_id(submission_token.getSubmission_id());
                                 textAnswerRepository.save(ta);
                                 break;
 
@@ -199,6 +209,7 @@ public class takeController {
                                 RangeAnswer ra = new RangeAnswer();
                                 ra.setQ_id(Integer.parseInt(entry.getKey()));
                                 ra.setAnswer(Integer.parseInt(entry.getValue()));
+                                ra.setSubmission_id(submission_token.getSubmission_id());
                                 rangeAnswerRepository.save(ra);
 
 
@@ -207,6 +218,7 @@ public class takeController {
                                 MultiSelectAnswer ms = new MultiSelectAnswer();
                                 ms.setQ_id(Integer.parseInt(entry.getKey()));
                                 ms.setAnswer(entry.getValue());
+                                ms.setSubmission_id(submission_token.getSubmission_id());
                                 multiSelectAnswerRepository.save(ms);
 
                                 break;
@@ -214,6 +226,7 @@ public class takeController {
                                 MultipleChoiceAnswer mc = new MultipleChoiceAnswer();
                                 mc.setQ_id(Integer.parseInt(entry.getKey()));
                                 mc.setAnswer(entry.getValue());
+                                mc.setSubmission_id(submission_token.getSubmission_id());
                                 multipleChoiceAnswerRepository.save(mc);
                                 break;
 

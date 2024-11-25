@@ -1,23 +1,20 @@
 package org.example.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
+@Data
+@Table
 @NoArgsConstructor
-@Getter
-@Setter
-@Table(name = "mc_ans")
-public class MultipleChoiceAnswer {
+@AllArgsConstructor
+public class Submission {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int a_id;
-
-    private int q_id;
-
+    @Column(name = "submission_id")
     private long submission_id;
 
-    private String answer;
 }
