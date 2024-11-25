@@ -17,7 +17,7 @@ public class MultiSelectAnswer {
 
     private int q_id;
 
-    private int submission_id;
+    private long submission_id;
 
     private String answer;
 }
