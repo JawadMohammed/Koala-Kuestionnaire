@@ -31,7 +31,7 @@ public class MakeController {
         Survey survey = new Survey();
         survey.setUser_id(1); // Hardcoded user ID for now
         model.addAttribute("survey", survey); // Add empty survey object for the form
-        return "createSurvey"; // Ensure this matches your HTML file name
+        return "createSurvey";
     }
 
     @PostMapping("/make")
@@ -129,6 +129,20 @@ public class MakeController {
         model.addAttribute("questionType", questionType);
         return "typeSpecificFields :: typeSpecificFields";
     }
+
+    @PostMapping("/questions/remove")
+    @ResponseBody
+    public String removeQuestion(@RequestParam Long questionId, @RequestParam Long surveyId, Model model) {
+        questionRepository.deleteById(questionId); // Deletes the question by its ID
+
+        // Fetch updated list of questions for the survey
+        List<Question> questions = questionRepository.findBySid(surveyId);
+        model.addAttribute("questions", questions);
+
+        // Return updated question list fragment
+        return "questionsList :: questionsList";
+    }
+
 
 
 
