@@ -17,6 +17,7 @@ public class RangeAnswer {
 
     private int q_id;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int submission_id;
 
     private int answer;
