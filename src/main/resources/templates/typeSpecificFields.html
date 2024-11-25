@@ -1,23 +1,32 @@
 <div th:switch="${questionType}">
+    <!-- Text Question: No additional fields -->
     <div th:case="'TEXT'">
-        <p>No additional fields for Text questions.</p>
+        <p>No additional fields required for Text questions.</p>
     </div>
+
+    <!-- Multi-Select Question -->
     <div th:case="'MULTI_SELECT'">
-        <label for="multiSelectOptions">Options (comma-separated):</label>
+        <label for="multiSelectOptions">Multi-Select Options (comma-separated):</label>
         <input type="text" id="multiSelectOptions" name="multiSelectOptions" />
     </div>
+
+    <!-- Multiple Choice Question -->
     <div th:case="'MULTIPLE_CHOICE'">
-        <label for="multipleChoiceOptions">Options (comma-separated):</label>
+        <label for="multipleChoiceOptions">Multiple Choice Options (comma-separated):</label>
         <input type="text" id="multipleChoiceOptions" name="multipleChoiceOptions" />
     </div>
+
+    <!-- Range Question -->
     <div th:case="'RANGE'">
         <label for="minValue">Range Start:</label>
         <input type="number" id="minValue" name="minValue" />
+
         <label for="maxValue">Range End:</label>
         <input type="number" id="maxValue" name="maxValue" />
     </div>
+
+    <!-- Default Case: Invalid Question Type -->
     <div th:case="*">
         <p>Please select a valid question type.</p>
     </div>
 </div>
-

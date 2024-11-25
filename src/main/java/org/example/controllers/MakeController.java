@@ -130,6 +130,20 @@ public class MakeController {
         return "typeSpecificFields :: typeSpecificFields";
     }
 
+    @PostMapping("/questions/remove")
+    @ResponseBody
+    public String removeQuestion(@RequestParam Long questionId, @RequestParam Long surveyId, Model model) {
+        questionRepository.deleteById(questionId); // Deletes the question by its ID
+
+        // Fetch updated list of questions for the survey
+        List<Question> questions = questionRepository.findBySid(surveyId);
+        model.addAttribute("questions", questions);
+
+        // Return updated question list fragment
+        return "questionsList :: questionsList";
+    }
+
+
 
 
 
