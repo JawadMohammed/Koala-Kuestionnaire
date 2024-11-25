@@ -185,7 +185,7 @@ public class takeController {
     @PostMapping("/take/{survey_id}")
     public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
         for (Map.Entry<String, String> entry : formData.entrySet()) {
-            questionRepository.findById(Integer.valueOf(entry.getKey())).ifPresent(
+            questionRepository.findById(Long.valueOf(entry.getKey())).ifPresent(
                     question -> {
                         switch(question.getQuestionType()) {
                             case QuestionType.TEXT:

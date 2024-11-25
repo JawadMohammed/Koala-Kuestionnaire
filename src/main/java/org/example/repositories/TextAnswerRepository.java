@@ -7,7 +7,7 @@ import org.example.models.TextAnswer;
 import java.util.List;
 
 
-public interface TextAnswerRepository extends JpaRepository<MultiSelect, Integer> {
+public interface TextAnswerRepository extends JpaRepository<TextAnswer, Integer> {
     @Query("SELECT DISTINCT t.submission_id FROM TextAnswer t")
     List<Integer> findDistinctSubmissionIds();
 

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Collection;
 import java.util.List;
 
-public interface MultipleChoiceAnswerRepository extends JpaRepository<MultipleChoice, Integer> {
+public interface MultipleChoiceAnswerRepository extends JpaRepository<MultipleChoiceAnswer, Integer> {
     @Query("SELECT DISTINCT m.submission_id FROM MultipleChoiceAnswer m")
     List<Integer> findDistinctSubmissionIds();
 
