@@ -51,9 +51,7 @@ public class userController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password,
-                        Model model) {
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isPresent()) {
@@ -61,8 +59,8 @@ public class userController {
 
             // Check if the passwords match
             if (user.getPassword().equals(password)) {
-                // Redirect to the user-specific surveys page
-                return "redirect:/user/" + user.getId() + "/surveys";
+                System.out.println(user.getUsername() + " " + user.getId());
+                return "redirect:/user/" + user.getId() + "/surveys";  // Ensure this URL is handled by the controller
             } else {
                 model.addAttribute("error", "Wrong username or password");
             }
@@ -70,6 +68,7 @@ public class userController {
             model.addAttribute("error", "User not found");
         }
 
-        return "homePage"; // Redirect back to home page with error message
+        return "homePage";  // Redirect back to home page with error message
     }
+
 }

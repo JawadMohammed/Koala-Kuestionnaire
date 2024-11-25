@@ -27,10 +27,20 @@ public class MakeController {
     }
 
     @GetMapping("/user/{userId}/make")
-    public String makeSurveyForm(@PathVariable Long userId, Model model) {
-        Survey survey = new Survey();
-        survey.setUserId(userId);
-        model.addAttribute("survey", survey); // Add empty survey object for the form
+    public String makeSurveyForm(@PathVariable Long userId,
+                                 @RequestParam(required = false) Long surveyId,
+                                 Model model) {
+        Survey survey;
+        if (surveyId != null) {
+            // Load existing survey for editing
+            survey = surveyRepository.findById(surveyId)
+                    .orElseThrow(() -> new RuntimeException("Survey not found"));
+        } else {
+            // Create new survey
+            survey = new Survey();
+            survey.setUserId(userId);
+        }
+        model.addAttribute("survey", survey);
         return "createSurvey"; // Ensure this matches your HTML file name
     }
 
