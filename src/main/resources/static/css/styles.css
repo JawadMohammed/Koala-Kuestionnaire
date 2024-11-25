@@ -32,6 +32,17 @@ body {
     margin-right: 10px;
 }
 
+.fail404 {
+    width: 600px;
+    height: 450px;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+
+
+}
+
+
 .home-button {
     background-color: #4f3b6b;
     color: white;
