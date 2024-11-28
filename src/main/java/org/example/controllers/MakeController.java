@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MakeController {
@@ -143,14 +144,17 @@ public class MakeController {
     @PostMapping("/questions/remove")
     @ResponseBody
     public String removeQuestion(@RequestParam Long questionId, @RequestParam Long surveyId, Model model) {
-        questionRepository.deleteById(questionId); // Deletes the question by its ID
-
-        // Fetch updated list of questions for the survey
-        List<Question> questions = questionRepository.findBySid(surveyId);
+        questionRepository.deleteById(questionId); // Delete the question
+        List<Question> questions = questionRepository.findBySid(surveyId); // Fetch updated questions
         model.addAttribute("questions", questions);
-
-        // Return updated question list fragment
-        return "questionsList :: questionsList";
+        model.addAttribute("survey", surveyRepository.findById(surveyId).orElseThrow()); // Include survey context
+        return "<ul>" +
+                questions.stream().map(q ->
+                                "<li>" + q.getQuestion_prompt() +
+                                        " - " + q.getQuestionType() +
+                                        " <button onclick='removeQuestion(" + q.getQid() + "," + surveyId + ")'>Remove</button></li>")
+                        .collect(Collectors.joining()) +
+                "</ul>";
     }
 
 
