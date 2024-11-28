@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,7 +31,6 @@
                     typeSpecificFields.innerHTML = `
                         <label for="minValue">Range Start:</label>
                         <input type="number" id="minValue" name="minValue" />
-
                         <label for="maxValue">Range End:</label>
                         <input type="number" id="maxValue" name="maxValue" />
                     `;
@@ -41,11 +39,10 @@
                 }
             });
 
-            // Handle form submission with AJAX
+            // Handle form submission for adding questions
             document.getElementById("addQuestionForm").addEventListener("submit", async (event) => {
-                event.preventDefault(); // Prevent default form submission
+                event.preventDefault();
 
-                // Gather form data
                 const formData = new FormData(event.target);
 
                 try {
@@ -58,30 +55,44 @@
                         const updatedQuestionsHtml = await response.text();
                         document.getElementById("questionsList").innerHTML = updatedQuestionsHtml;
 
+                        // Reinitialize the "Remove" functionality for newly added questions
+                        initializeRemoveButtons();
+
                         event.target.reset();
-                        document.getElementById("typeSpecificFields").innerHTML = ""; // Clear additional fields
+                        document.getElementById("typeSpecificFields").innerHTML = "";
                     } else {
                         console.error("Failed to add question:", response.status);
-                        alert("Error adding the question. Please try again.");
+                        alert("Error adding the question.");
                     }
                 } catch (error) {
-                    console.error("Error during form submission:", error);
-                    alert("Something went wrong while adding the question.");
+                    console.error("Error:", error);
+                    alert("An error occurred while adding the question.");
                 }
             });
 
+            function initializeRemoveButtons() {
+                const removeButtons = document.querySelectorAll("[data-remove-question]");
+                removeButtons.forEach((button) => {
+                    button.onclick = () => {
+                        const questionId = button.getAttribute("data-question-id");
+                        const surveyId = button.getAttribute("data-survey-id");
+                        window.removeQuestion(questionId, surveyId);
+                    };
+                });
+            }
+
+
+
             // Handle question removal
-            window.removeQuestion = async function(questionId, surveyId) {
+            window.removeQuestion = async function (questionId, surveyId) {
                 if (!confirm("Are you sure you want to remove this question?")) {
-                    return; // User canceled
+                    return;
                 }
 
                 try {
                     const response = await fetch("/questions/remove", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
                         body: new URLSearchParams({
                             questionId: questionId,
                             surveyId: surveyId,
@@ -90,20 +101,16 @@
 
                     if (response.ok) {
                         const updatedQuestionsHtml = await response.text();
-
-                        // Dynamically update the questions list with the returned HTML
-                        const questionsListContainer = document.getElementById("questionsList");
-                        questionsListContainer.innerHTML = updatedQuestionsHtml;
+                        document.getElementById("questionsList").innerHTML = updatedQuestionsHtml;
                     } else {
                         console.error("Failed to remove question:", response.status);
-                        alert("Error removing the question. Please try again.");
+                        alert("Error removing the question.");
                     }
                 } catch (error) {
-                    console.error("Error during question removal:", error);
-                    alert("Something went wrong while removing the question.");
+                    console.error("Error:", error);
+                    alert("An error occurred while removing the question.");
                 }
             };
-
         });
     </script>
 </head>
@@ -119,11 +126,15 @@
         <li th:each="question : ${questions}">
             <span th:text="${question.question_prompt}"></span> -
             <span th:text="${question.questionType}"></span>
-            <button type="button" th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'">Remove</button>
-
+            <button type="button"
+                    th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'"
+                    data-remove-question
+                    data-question-id="${question.qid}"
+                    data-survey-id="${survey.sid}">
+                Remove
+            </button>
         </li>
     </ul>
-
     <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>
 </div>
 
