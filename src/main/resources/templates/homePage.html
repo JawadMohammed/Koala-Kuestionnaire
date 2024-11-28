@@ -3,29 +3,39 @@
 <head>
     <title>Login Page</title>
     <script src="https://unpkg.com/htmx.org"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-<h1>Welcome to KoalaKuest</h1>
-
-<!-- Login Form -->
-<div id="login-form">
-    <form hx-post="/login" hx-target="#login-form">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-
-    <!-- Display error message for invalid credentials -->
-    <div id="error-message" style="color: red;">
-        <p th:if="${error}" th:text="${error}"></p>
+<div class="container">
+    <div class="header">
+        <img src="/static/images/logo.png" alt="KoalaKuest Logo" class="icon">
+        <h1>Welcome to KoalaKuest</h1>
     </div>
 
-    <!-- Sign Up Button -->
-    <button hx-get="/register" hx-target="body">Sign Up</button>
+    <!-- Login Form -->
+    <div id="login-form">
+        <form hx-post="/login" hx-target="#login-form">
+            <div class="main-content">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="survey-id-field" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="survey-id-field" required>
+                <br>
+                <button type="submit" class="home-button">Login</button>
+            </div>
+        </form>
+
+        <!-- Display error message for invalid credentials -->
+        <div id="error-message" style="color: red; text-align: center;">
+            <p th:if="${error}" th:text="${error}"></p>
+        </div>
+
+        <!-- Sign Up Button -->
+        <div class="button-group">
+            <button hx-get="/register" hx-target="body" class="action-button">Sign Up</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>

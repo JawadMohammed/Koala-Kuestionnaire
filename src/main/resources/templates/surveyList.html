@@ -2,34 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Survey List</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <script src="https://unpkg.com/htmx.org@1.7.0"></script> <!-- HTMX library -->
 </head>
 <body>
-<div class="container mt-4">
-    <h1 class="mb-4">Survey List</h1>
+<div class="container">
+    <div class="header">
+        <img src="/static/images/logo.png" alt="KoalaKuest Logo" class="icon">
+        <h1>Survey List</h1>
+    </div>
 
     <!-- Add Survey Form -->
-    <form th:action="@{/user/{userId}/surveys/add(userId=${userId})}" method="post" hx-post="/user/{userId}/surveys/add" hx-target="#surveyList" class="mb-4">
+    <form th:action="@{/user/{userId}/surveys/add(userId=${userId})}" method="post" hx-post="/user/{userId}/surveys/add" hx-target="#surveyList" class="main-content">
         <div class="mb-3">
             <label for="surveyTitle" class="form-label">Survey Title</label>
-            <input type="text" id="surveyTitle" name="title" class="form-control" placeholder="Enter survey title" required>
+            <input type="text" id="surveyTitle" name="title" class="survey-id-field" placeholder="Enter survey title" required>
         </div>
         <div class="mb-3">
             <label for="surveyDescription" class="form-label">Survey Description</label>
-            <textarea id="surveyDescription" name="description" class="form-control" rows="3" placeholder="Enter survey description" required></textarea>
+            <textarea id="surveyDescription" name="description" class="survey-id-field" rows="3" placeholder="Enter survey description" required></textarea>
         </div>
-        <button type="submit" class="btn btn-success">Add Survey</button>
+        <div class="button-group">
+            <button type="submit" class="home-button">Add Survey</button>
+        </div>
     </form>
 
     <!-- List of Existing Surveys -->
-    <div id="surveyList">
-        <table class="table table-striped">
+    <div id="surveyList" class="main-content">
+        <table class="table">
             <thead>
             <tr>
                 <th>Survey Title</th>
                 <th>Description</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -37,10 +42,13 @@
                 <td th:text="${survey.title}">Sample Title</td>
                 <td th:text="${survey.description}">Sample Description</td>
                 <td>
+                <td>
                     <!-- Edit Button -->
-                    <a th:href="@{/user/{userId}/make(userId=${userId}, surveyId=${survey.sid})}" class="btn btn-primary btn-sm">Edit</a>
+                    <a th:href="@{/user/{userId}/make(userId=${userId}, surveyId=${survey.sid})}" class="action-button-small">Edit</a>
                     <!-- View Button -->
-                    <a th:href="@{/surveys/{id}(id=${survey.sid})}" class="btn btn-secondary btn-sm">View</a>
+                    <a th:href="@{/surveys/{id}(id=${survey.sid})}" class="action-button-small">View</a>
+                </td>
+
                 </td>
             </tr>
             </tbody>
