@@ -76,12 +76,21 @@ body {
     background-color: #b8a0d0;
     color: #4f3b6b;
     border: 1px solid #4f3b6b;
-    padding: 10px 20px;
+    padding: 8px 30px; /* Decreased height by reducing padding and increased width by adjusting horizontal padding */
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    width: 80px;
 }
+.action-button-small {
+    background-color: #b8a0d0;
+    color: #4f3b6b;
+    border: 1px solid #4f3b6b;
+    padding: 5px 10px; /* Smaller padding for reduced size */
+    border-radius: 5px;
+    font-size: 14px; /* Slightly smaller font */
+    cursor: pointer;
+}
+
 .option-container {
     display: flex;
     gap: 10px;
