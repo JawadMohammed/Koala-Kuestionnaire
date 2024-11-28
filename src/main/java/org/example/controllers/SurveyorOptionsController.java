@@ -29,26 +29,4 @@ public class SurveyorOptionsController {
         return "surveyList";
     }
 
-    @GetMapping("/user/{id}/surveys/add")
-    public String showAddSurveyForm(@PathVariable("id") Long userId, Model model) {
-        model.addAttribute("userId", userId);
-        System.out.println(model + "  " + userId);
-        return "addSurvey"; // This should match your HTML file for adding surveys
-    }
-
-    // Add a new survey for the user
-    @PostMapping("/user/{id}/surveys/add")
-    public String addSurvey(@PathVariable("id") Long userId,
-                            @RequestParam String title,
-                            @RequestParam String description) {
-        System.out.println(title + "  " + userId);
-        Survey newSurvey = new Survey();
-        newSurvey.setUserId(userId); // Associate the survey with the user
-        newSurvey.setTitle(title);
-        newSurvey.setDescription(description);
-        newSurvey.setClosed(false); // Default to open
-        System.out.println(title + "  " + userId);
-        surveyRepository.save(newSurvey); // Save to DB
-        return "redirect:/user/" + userId + "/surveys"; // Redirect back to survey list
-    }
 }
