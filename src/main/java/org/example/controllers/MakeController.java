@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -61,8 +62,33 @@ public class MakeController {
     public String getSurveyDetails(@PathVariable Long id, Model model) {
         Survey survey = surveyRepository.findById(id).orElseThrow(() -> new RuntimeException("Survey not found"));
         List<Question> questions = questionRepository.findBySid(id);
+        Map<Long, List<MultipleChoice>> multipleChoiceOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTIPLE_CHOICE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multipleChoiceRepository.findByqid(q.getQid())
+                ));
+
+        Map<Long, List<MultiSelect>> multiSelectOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTI_SELECT)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multiSelectRepository.findByqid(q.getQid())
+                ));
+
+        Map<Long, Range_question> rangeOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.RANGE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> rangeQuestionRepository.findByqid(q.getQid()).get(0)
+                ));
+
         model.addAttribute("survey", survey);
         model.addAttribute("questions", questions != null ? questions : List.of());
+        model.addAttribute("multipleChoiceOptions", multipleChoiceOptionsMap);
+        model.addAttribute("multiSelectOptions", multiSelectOptionsMap);
+        model.addAttribute("rangeOptions", rangeOptionsMap);
+
         return "makePage";
     }
 
@@ -129,7 +155,34 @@ public class MakeController {
 
         // Step 3: Fetch Updated Question List
         List<Question> questions = questionRepository.findBySid(surveyId);
+        Map<Long, List<MultipleChoice>> multipleChoiceOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTIPLE_CHOICE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multipleChoiceRepository.findByqid(q.getQid())
+                ));
+
+        Map<Long, List<MultiSelect>> multiSelectOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTI_SELECT)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multiSelectRepository.findByqid(q.getQid())
+                ));
+
+        Map<Long, Range_question> rangeOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.RANGE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> rangeQuestionRepository.findByqid(q.getQid()).get(0)
+                ));
+
+        Survey survey = surveyRepository.findById(surveyId)
+                .orElseThrow(() -> new RuntimeException("Survey not found"));
         model.addAttribute("questions", questions);
+        model.addAttribute("survey", survey); // Add the survey to the model
+        model.addAttribute("multipleChoiceOptions", multipleChoiceOptionsMap);
+        model.addAttribute("multiSelectOptions", multiSelectOptionsMap);
+        model.addAttribute("rangeOptions", rangeOptionsMap);
         return "questionsList :: questionsList"; // Thymeleaf fragment
     }
 
@@ -146,14 +199,91 @@ public class MakeController {
     public String removeQuestion(@RequestParam Long questionId, @RequestParam Long surveyId, Model model) {
         questionRepository.deleteById(questionId); // Delete the question
         List<Question> questions = questionRepository.findBySid(surveyId); // Fetch updated questions
+        Map<Long, List<MultipleChoice>> multipleChoiceOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTIPLE_CHOICE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multipleChoiceRepository.findByqid(q.getQid())
+                ));
+
+        Map<Long, List<MultiSelect>> multiSelectOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.MULTI_SELECT)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> multiSelectRepository.findByqid(q.getQid())
+                ));
+        Map<Long, List<Range_question>> rangeOptionsMap = questions.stream()
+                .filter(q -> q.getQuestionType() == QuestionType.RANGE)
+                .collect(Collectors.toMap(
+                        Question::getQid,
+                        q -> rangeQuestionRepository.findByqid(q.getQid())
+                ));
+
         model.addAttribute("questions", questions);
         model.addAttribute("survey", surveyRepository.findById(surveyId).orElseThrow()); // Include survey context
+        model.addAttribute("multipleChoiceOptions", multipleChoiceOptionsMap);
+        model.addAttribute("multiSelectOptions", multiSelectOptionsMap);
+        model.addAttribute("rangeOptions", rangeOptionsMap);
         return "<ul>" +
-                questions.stream().map(q ->
-                                "<li>" + q.getQuestion_prompt() +
-                                        " - " + q.getQuestionType() +
-                                        " <button onclick='removeQuestion(" + q.getQid() + "," + surveyId + ")'>Remove</button></li>")
-                        .collect(Collectors.joining()) +
+                questions.stream().map(q -> {
+                    StringBuilder questionHtml = new StringBuilder();
+                    questionHtml.append("<li>")
+                            .append(q.getQuestion_prompt())
+                            .append(" - ")
+                            .append(q.getQuestionType());
+
+                    // Add options for MULTIPLE_CHOICE
+                    if (q.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+                        questionHtml.append("<ul>");
+                        List<MultipleChoice> options = multipleChoiceOptionsMap.get(q.getQid());
+                        if (options != null) {
+                            for (MultipleChoice option : options) {
+                                questionHtml.append("<li>")
+                                        .append(option.getOption_prompt())
+                                        .append("</li>");
+                            }
+                        }
+                        questionHtml.append("</ul>");
+                    }
+
+                    // Add options for MULTI_SELECT
+                    if (q.getQuestionType() == QuestionType.MULTI_SELECT) {
+                        questionHtml.append("<ul>");
+                        List<MultiSelect> options = multiSelectOptionsMap.get(q.getQid());
+                        if (options != null) {
+                            for (MultiSelect option : options) {
+                                questionHtml.append("<li>")
+                                        .append(option.getOption_prompt())
+                                        .append("</li>");
+                            }
+                        }
+                        questionHtml.append("</ul>");
+                    }
+
+                    // Add range for RANGE questions
+                    if (q.getQuestionType() == QuestionType.RANGE) {
+                        List<Range_question> ranges = rangeOptionsMap.get(q.getQid());
+                        if (ranges != null && !ranges.isEmpty()) {
+                            Range_question range = ranges.get(0); // Get the first (or only) range
+                            if (range != null) {
+                                questionHtml.append("<ul><li>Range: ")
+                                        .append(range.getStart())
+                                        .append(" - ")
+                                        .append(range.getEnd())
+                                        .append("</li></ul>");
+                            }
+                        }
+                    }
+
+                    // Add remove button
+                    questionHtml.append(" <button onclick='removeQuestion(")
+                            .append(q.getQid())
+                            .append(", ")
+                            .append(surveyId)
+                            .append(")'>Remove</button></li>");
+
+                    return questionHtml.toString();
+                }).collect(Collectors.joining()) +
                 "</ul>";
     }
 

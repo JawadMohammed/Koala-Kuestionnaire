@@ -168,7 +168,7 @@ public class MakeControllerTest {
         QuestionType questionType = QuestionType.MULTIPLE_CHOICE;
 
         // Act
-        String fragment = makeController.getTypeSpecificFields(questionType, model);
+        String fragment = String.valueOf(makeController.getTypeSpecificFields(questionType, model));
 
         // Assert
         assertEquals("typeSpecificFields :: typeSpecificFields", fragment);

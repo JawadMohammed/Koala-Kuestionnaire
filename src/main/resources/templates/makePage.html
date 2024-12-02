@@ -126,6 +126,28 @@
         <li th:each="question : ${questions}">
             <span th:text="${question.question_prompt}"></span> -
             <span th:text="${question.questionType}"></span>
+
+            <!-- Display Multiple Choice Options -->
+            <ul th:if="${question.questionType == T(org.example.models.QuestionType).MULTIPLE_CHOICE}">
+                <li th:each="option : ${multipleChoiceOptions[question.qid]}">
+                    <span th:text="${option.option_prompt}"></span> <!-- Display Option Prompt -->
+                </li>
+            </ul>
+
+            <!-- Display Multi-Select Options -->
+            <ul th:if="${question.questionType == T(org.example.models.QuestionType).MULTI_SELECT}">
+                <li th:each="option : ${multiSelectOptions[question.qid]}">
+                    <span th:text="${option.option_prompt}"></span> <!-- Display Option Prompt -->
+                </li>
+            </ul>
+
+            <!-- Display range options -->
+            <ul th:if="${question.questionType == T(org.example.models.QuestionType).RANGE}">
+                <li>
+                    <span th:text="'Range: ' + ${rangeOptions[question.qid].start} + ' - ' + ${rangeOptions[question.qid].end}"></span>
+                </li>
+            </ul>
+
             <button type="button"
                     th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'"
                     data-remove-question
