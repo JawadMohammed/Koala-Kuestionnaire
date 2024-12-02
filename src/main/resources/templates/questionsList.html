@@ -1,9 +1,36 @@
-<!-- questionsList.html -->
 <div th:fragment="questionsList(questions)">
     <ul>
         <li th:each="question : ${questions}">
             <span th:text="${question.question_prompt}"></span> -
             <span th:text="${question.questionType}"></span>
+
+            <!-- Multi-Select Options -->
+            <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTI_SELECT}" class="option-container">
+                <div th:each="option : ${multiSelectOptions[question.qid]}" class="option-item">
+                    <span class="option-text" th:text="${option.option_prompt}"></span>
+                </div>
+            </div>
+
+            <!-- Multiple Choice Options -->
+            <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTIPLE_CHOICE}" class="option-container">
+                <div th:each="option : ${multipleChoiceOptions[question.qid]}" class="option-item">
+                    <span class="option-text" th:text="${option.option_prompt}"></span>
+                </div>
+            </div>
+
+            <div th:if="${question.questionType == T(org.example.models.QuestionType).RANGE}" class="option-container">
+                <div class="option-item">
+                    <span class="option-text">Range:</span>
+                    <span class="range-start" th:text="${rangeOptions[question.qid].start}"></span>
+                    <span class="option-text">to</span>
+                    <span class="range-end" th:text="${rangeOptions[question.qid].end}"></span>
+                </div>
+            </div>
+
+            <button type="button"
+                    th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'">
+                Remove
+            </button>
         </li>
     </ul>
     <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>

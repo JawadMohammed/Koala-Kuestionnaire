@@ -1,0 +1,191 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0d4f0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: #d3c2eb;
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #b8a0d0;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+h1, h2, h3 {
+    color: #4f3b6b;
+}
+
+p, label, span {
+    color: #333;
+}
+
+.main-content {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 15px;
+}
+
+.option-container {
+    padding-left: 20px;
+}
+
+button {
+    background-color: #b8a0d0;
+    color: #4f3b6b;
+    border: 1px solid #4f3b6b;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #a491c4;
+}
+
+.action-button {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.form-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #4f3b6b;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button[type="submit"] {
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.option-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e8dffa;
+    border: 1px solid #cbb9e5;
+    border-radius: 5px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    background-color: #ffffff;
+    border: 1px solid #b8a0d0;
+    border-radius: 5px;
+}
+
+.option-item:hover {
+    background-color: #f3ebff;
+    border-color: #a491c4;
+}
+
+.option-text {
+    font-size: 14px;
+    color: #4f3b6b;
+}
+
+/* Option Container for RANGE */
+.option-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e8dffa; /* Light lavender background */
+    border: 1px solid #cbb9e5; /* Soft purple border */
+    border-radius: 5px;
+}
+
+/* Individual Range Item */
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    background-color: #ffffff; /* White background */
+    border: 1px solid #b8a0d0; /* Border matching aesthetic */
+    border-radius: 5px;
+}
+
+/* Text Styling for Range */
+.option-text {
+    font-size: 14px;
+    color: #4f3b6b; /* Dark purple text */
+    font-weight: bold;
+}
+
+/* Range Start and End Styling */
+.range-start,
+.range-end {
+    font-size: 14px;
+    color: #4f3b6b; /* Matches text */
+    font-weight: bold;
+}
+
+/* Hover Effect for Range Item */
+.option-item:hover {
+    background-color: #f3ebff; /* Light hover effect */
+    border-color: #a491c4; /* Slightly darker border on hover */
+}
+
+button.action-button {
+    background-color: #b8a0d0;
+    color: #4f3b6b;
+    border: 1px solid #4f3b6b;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    width: auto; /* Adjust button width to fit content */
+    display: inline-block; /* Prevent button from stretching */
+}
+
+button.action-button:hover {
+    background-color: #a491c4;
+}

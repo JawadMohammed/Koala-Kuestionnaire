@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Survey</title>
+    <link rel="stylesheet" href="/css/stylesformake.css">
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // Dynamically update form fields based on question type
@@ -116,49 +117,80 @@
 </head>
 <body>
 <!-- Survey Details -->
-<h1 th:text="${survey.title}">Survey Title</h1>
-<p th:text="${survey.description}">Survey Description</p>
+<div id="survey" class="container">
+    <div class="header">
+        <img src="/images/Logo.png" alt="Koala Icon" class="icon" />
+        <div>
+            <h1 th:text="${survey.title}"></h1>
+            <p th:text="${survey.description}"></p>
+        </div>
+    </div>
 
-<!-- Questions Section -->
-<h2>Questions</h2>
-<div id="questionsList">
-    <ul>
-        <li th:each="question : ${questions}">
-            <span th:text="${question.question_prompt}"></span> -
-            <span th:text="${question.questionType}"></span>
-            <button type="button"
-                    th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'"
-                    data-remove-question
-                    data-question-id="${question.qid}"
-                    data-survey-id="${survey.sid}">
-                Remove
-            </button>
-        </li>
-    </ul>
-    <p th:if="${#lists.isEmpty(questions)}">No questions have been added yet.</p>
+    <!-- Questions Section -->
+    <section>
+        <h2>Questions</h2>
+        <div id="questionsList" class="main-content">
+            <ul>
+                <li th:each="question : ${questions}">
+                    <span th:text="${question.question_prompt}"></span> -
+                    <span th:text="${question.questionType}"></span>
+
+                    <!-- Multi-Select Options -->
+                    <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTI_SELECT}" class="option-container">
+                        <div th:each="option : ${multiSelectOptions[question.qid]}" class="option-item">
+                            <span class="option-text" th:text="${option.option_prompt}"></span>
+                        </div>
+                    </div>
+
+                    <!-- Multiple Choice Options -->
+                    <div th:if="${question.questionType == T(org.example.models.QuestionType).MULTIPLE_CHOICE}" class="option-container">
+                        <div th:each="option : ${multipleChoiceOptions[question.qid]}" class="option-item">
+                            <span class="option-text" th:text="${option.option_prompt}"></span>
+                        </div>
+                    </div>
+
+                    <div th:if="${question.questionType == T(org.example.models.QuestionType).RANGE}" class="option-container">
+                        <div class="option-item">
+                            <span class="option-text">Range:</span>
+                            <span class="range-start" th:text="${rangeOptions[question.qid].start}"></span>
+                            <span class="option-text">to</span>
+                            <span class="range-end" th:text="${rangeOptions[question.qid].end}"></span>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            th:onclick="'removeQuestion(' + ${question.qid} + ',' + ${survey.sid} + ')'">
+                        Remove
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Add Question Form -->
+    <section>
+        <h3>Add a New Question</h3>
+        <form id="addQuestionForm" class="form-container">
+            <input type="hidden" name="surveyId" th:value="${survey.sid}" />
+
+            <label for="prompt">Question Prompt:</label>
+            <input type="text" id="prompt" name="prompt" required />
+
+            <label for="questionType">Question Type:</label>
+            <select id="questionType" name="questionType">
+                <option value="">Select Question Type</option>
+                <option value="TEXT">Text</option>
+                <option value="MULTI_SELECT">Multi-Select</option>
+                <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+                <option value="RANGE">Range</option>
+            </select>
+
+            <div id="typeSpecificFields"></div>
+
+            <button type="submit" class="action-button">Add Question</button>
+        </form>
+    </section>
 </div>
 
-<!-- Add Question Form -->
-<h3>Add a New Question</h3>
-<form id="addQuestionForm">
-    <input type="hidden" name="surveyId" th:value="${survey.sid}" />
-
-    <label for="prompt">Question Prompt:</label>
-    <input type="text" id="prompt" name="prompt" required />
-
-    <label for="questionType">Question Type:</label>
-    <select id="questionType" name="questionType">
-        <option value="">Select Question Type</option>
-        <option value="TEXT">Text</option>
-        <option value="MULTI_SELECT">Multi-Select</option>
-        <option value="MULTIPLE_CHOICE">Multiple Choice</option>
-        <option value="RANGE">Range</option>
-    </select>
-
-    <!-- Dynamic Fields -->
-    <div id="typeSpecificFields"></div>
-
-    <button type="submit">Add Question</button>
-</form>
 </body>
 </html>
