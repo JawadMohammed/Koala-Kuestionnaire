@@ -228,36 +228,43 @@ public class MakeController {
                 questions.stream().map(q -> {
                     StringBuilder questionHtml = new StringBuilder();
                     questionHtml.append("<li>")
+                            .append("<span>")
                             .append(q.getQuestion_prompt())
-                            .append(" - ")
-                            .append(q.getQuestionType());
+                            .append("</span> - ")
+                            .append("<span>")
+                            .append(q.getQuestionType())
+                            .append("</span>");
 
                     // Add options for MULTIPLE_CHOICE
                     if (q.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
-                        questionHtml.append("<ul>");
+                        questionHtml.append("<div class='option-container'>");
                         List<MultipleChoice> options = multipleChoiceOptionsMap.get(q.getQid());
                         if (options != null) {
                             for (MultipleChoice option : options) {
-                                questionHtml.append("<li>")
+                                questionHtml.append("<div class='option-item'>")
+                                        .append("<span class='option-text'>")
                                         .append(option.getOption_prompt())
-                                        .append("</li>");
+                                        .append("</span>")
+                                        .append("</div>");
                             }
                         }
-                        questionHtml.append("</ul>");
+                        questionHtml.append("</div>");
                     }
 
                     // Add options for MULTI_SELECT
                     if (q.getQuestionType() == QuestionType.MULTI_SELECT) {
-                        questionHtml.append("<ul>");
+                        questionHtml.append("<div class='option-container'>");
                         List<MultiSelect> options = multiSelectOptionsMap.get(q.getQid());
                         if (options != null) {
                             for (MultiSelect option : options) {
-                                questionHtml.append("<li>")
+                                questionHtml.append("<div class='option-item'>")
+                                        .append("<span class='option-text'>")
                                         .append(option.getOption_prompt())
-                                        .append("</li>");
+                                        .append("</span>")
+                                        .append("</div>");
                             }
                         }
-                        questionHtml.append("</ul>");
+                        questionHtml.append("</div>");
                     }
 
                     // Add range for RANGE questions
@@ -266,17 +273,24 @@ public class MakeController {
                         if (ranges != null && !ranges.isEmpty()) {
                             Range_question range = ranges.get(0); // Get the first (or only) range
                             if (range != null) {
-                                questionHtml.append("<ul><li>Range: ")
+                                questionHtml.append("<div class='option-container'>")
+                                        .append("<div class='option-item'>")
+                                        .append("<span class='option-text'>Range:</span> ")
+                                        .append("<span class='range-start'>")
                                         .append(range.getStart())
-                                        .append(" - ")
+                                        .append("</span>")
+                                        .append("<span class='option-text'> to </span>")
+                                        .append("<span class='range-end'>")
                                         .append(range.getEnd())
-                                        .append("</li></ul>");
+                                        .append("</span>")
+                                        .append("</div>")
+                                        .append("</div>");
                             }
                         }
                     }
 
                     // Add remove button
-                    questionHtml.append(" <button onclick='removeQuestion(")
+                    questionHtml.append("<button type='button' style='width:auto;display:inline-block;' class='action-button' onclick='removeQuestion(")
                             .append(q.getQid())
                             .append(", ")
                             .append(surveyId)
@@ -285,6 +299,7 @@ public class MakeController {
                     return questionHtml.toString();
                 }).collect(Collectors.joining()) +
                 "</ul>";
+
     }
 
 
