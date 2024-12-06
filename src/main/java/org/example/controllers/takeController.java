@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class takeController {
 
+    @Autowired
+    private final SurveyRepository surveyRepository;
     @Autowired
     private final QuestionRepository questionRepository;
 
@@ -43,10 +46,11 @@ public class takeController {
 
 
 
-    public takeController(QuestionRepository qp,TextAnswerRepository taR,
+    public takeController(SurveyRepository surveyRepository, QuestionRepository qp, TextAnswerRepository taR,
                           Range_questionRepository rqR, RangeAnswerRepository raR,
                           MultipleChoiceRepository mcR , MultipleChoiceAnswerRepository mcaR,
                           MultiSelectRepository msR, MultiSelectAnswerRepository msaR , SubmissionRepository sR){
+        this.surveyRepository = surveyRepository;
         this.questionRepository = qp;
         this.textAnswerRepository = taR;
         this.range_questionRepository = rqR;
@@ -67,11 +71,18 @@ public class takeController {
     }
     @GetMapping ("/take/addRand")
     public String randfill(){
+
+        Survey survey = new Survey();
+        survey.setTitle("Closed Survey Example");
+        survey.setClosed(false);
+        Survey savedSurvey = surveyRepository.save(survey);
+
+
         Question randQuestion1 = new Question();
         randQuestion1.setQuestion_prompt("this is a random TEXT question to be displayed");
         randQuestion1.setQuestionType(QuestionType.TEXT);
         randQuestion1.setQ_order(1);
-        randQuestion1.setSid(617);
+        randQuestion1.setSid(survey.getSid());
 
         questionRepository.save(randQuestion1);
 
@@ -80,7 +91,7 @@ public class takeController {
         randQuestion2.setQuestion_prompt("this is a random RANGE question to be displayed");
         randQuestion2.setQuestionType(QuestionType.RANGE);
         randQuestion2.setQ_order(2);
-        randQuestion2.setSid(617);
+        randQuestion2.setSid(survey.getSid());
 
         questionRepository.save(randQuestion2);
         System.out.println(randQuestion2.getQid());
@@ -88,7 +99,9 @@ public class takeController {
         Range_question rangeQues = new Range_question();
         rangeQues.setQid(randQuestion2.getQid());
         rangeQues.setStart(1);
-        rangeQues.setEnd(10);
+        if (rangeQues.getEnd() == null) {
+            rangeQues.setEnd(Integer.valueOf(1));}
+        rangeQues.setEnd(Integer.valueOf(10));
 
         range_questionRepository.save(rangeQues);
 
@@ -96,7 +109,7 @@ public class takeController {
         randQuestion3.setQuestion_prompt("this is a random MULTIPLE CHOICE question to be displayed");
         randQuestion3.setQuestionType(QuestionType.MULTIPLE_CHOICE);
         randQuestion3.setQ_order(3);
-        randQuestion3.setSid(617);
+        randQuestion3.setSid(survey.getSid());
 
         questionRepository.save(randQuestion3);
 
@@ -119,7 +132,7 @@ public class takeController {
         randQuestion4.setQuestion_prompt("this is a random MULTIPLE SELECT question to be displayed");
         randQuestion4.setQuestionType(QuestionType.MULTI_SELECT);
         randQuestion4.setQ_order(4);
-        randQuestion4.setSid(617);
+        randQuestion4.setSid(survey.getSid());
 
         questionRepository.save(randQuestion4);
 
@@ -135,6 +148,7 @@ public class takeController {
         multiSelectRepository.save(ms1);
         multiSelectRepository.save(ms2);
 
+
         return "take";
 
     }
@@ -144,6 +158,28 @@ public class takeController {
     }
     @GetMapping("/take/{survey_id}")
     public String takeASurvey(Model model, @PathVariable Long survey_id){
+
+        Optional<Survey> surveysearch = surveyRepository.findById(survey_id);
+        if (!surveysearch.isPresent()) {
+            model.addAttribute("surveyId", survey_id);
+            return "notfound";
+        } else {
+            if(surveysearch.get().getClosed()){
+                model.addAttribute("surveyId", survey_id);
+                return "closed";
+            }
+            else {
+                try {
+                    model.addAttribute("survey_title", surveysearch.get().getTitle());
+                    model.addAttribute("survey_desc", surveysearch.get().getDescription());
+                } finally {
+                    System.out.println("Getting Survey");
+                }
+
+
+            }
+        }
+
 
         List<Question> testqs = questionRepository.findBySid(survey_id);
         List<List<String>> listOfLists;
@@ -191,8 +227,9 @@ public class takeController {
 
     @PostMapping("/take/{survey_id}")
     public String taken(Model model, @PathVariable Long survey_id, @RequestParam Map<String, String> formData) {
+
         Submission submission_token = new Submission();
-       submissionRepository.save(submission_token);
+        submissionRepository.save(submission_token);
         for (Map.Entry<String, String> entry : formData.entrySet()) {
             questionRepository.findById(Long.valueOf(entry.getKey())).ifPresent(
                     question -> {
@@ -243,14 +280,17 @@ public class takeController {
         model.addAttribute("surveyId", survey_id);
         return "taken";
     }
+
     @GetMapping("/take")
-    public String askSurvey(){
+    public String askSurvey() {
+
         return "take";
     }
 
     @PostMapping("/take")
-    public String findSurvey(@RequestParam Long survey_id){
-        return "redirect:/take/"+survey_id;
+    public String findSurvey(@RequestParam Long survey_id) throws InterruptedException {
+
+    return "redirect:/take/"+survey_id;
     }
 
 }
